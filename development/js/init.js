@@ -6,7 +6,7 @@ function init() {
 	initShop()
 	initApartment()
 	initBench()
-	//initBackHoe()
+	initBackHoe()
 	initTruck()
 	initWorkers()
 	// Mechanics

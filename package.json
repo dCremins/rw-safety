@@ -43,6 +43,7 @@
   "xo": {
     "esnext": true,
     "semicolon": false,
+    "no-unused-vars": false,
     "envs": [
       "node",
       "browser"

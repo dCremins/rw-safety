@@ -1,9 +1,11 @@
 # road-work-safety
 
-> My scrumtrulescent app
+> An ITRE Application
 
 
 ## Dev
+
+
 
 ```
 $ yarn install
