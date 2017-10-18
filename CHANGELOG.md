@@ -11,3 +11,8 @@
 * Added Bookstore Interior
 * Attempted to split main.js into multiple files
   * It failed
+
+## 2.0.0
+* Restructured app to split multiple files out and gulp together
+* Moved to more bare bones boilerplate to remove rollup and other bloat
+* Redesigned Apartment building to include sills and interiors
