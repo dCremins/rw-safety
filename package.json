@@ -13,15 +13,20 @@
   "main": "app/app.js",
   "scripts": {
     "test": "xo",
+    "release": "build",
     "start": "gulp compile",
     "pack": "electron-builder --dir",
-    "dist": "gulp bundle && electron-builder --publish=always -mwl",
-    "build": "electron-packager . --out=dist --asar --overwrite --all"
+    "dist": "gulp bundle && electron-builder",
+    "build": "gulp bundle"
   },
   "build": {
     "appId": "itre.road.work.safety",
     "mac": {
       "category": "your.app.category.type"
+    },
+    "publish": {
+      "provider": "github",
+      "private": false
     },
     "files": [
       "**/*",
