@@ -1,17 +1,17 @@
-function onDocumentMouseCancel( event ) {
+function onDocumentMouseCancel(event) {
 	controls.enabled = true
-	event.preventDefault();
-	if ( selected ) {
-		selected = null;
+	event.preventDefault()
+	if (selected) {
+		selected = null
 	}
-	renderer.domElement.style.cursor = 'auto';
+	renderer.domElement.style.cursor = 'auto'
 }
 
-function onDocumentTouchEnd( event ) {
-  controls.enabled = true
-  event.preventDefault();
-  if ( selected ) {
-    selected = null;
-  }
-  renderer.domElement.style.cursor = 'auto';
+function onDocumentTouchEnd(event) {
+	controls.enabled = true
+	event.preventDefault()
+	if (selected) {
+		selected = null
+	}
+	renderer.domElement.style.cursor = 'auto'
 }

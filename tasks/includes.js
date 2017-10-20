@@ -1,6 +1,8 @@
-var gulp = require('gulp')
+const gulp = require('gulp')
+const plumber = require('gulp-plumber')
 
-gulp.task('includes', function() {
-  return gulp.src('./development/includes/**/*')
-    .pipe(gulp.dest('./app/includes'))
+gulp.task('includes', () => {
+	return gulp.src('./development/includes/**/*')
+	.pipe(plumber())
+  .pipe(gulp.dest('./app/includes'))
 })
