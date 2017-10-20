@@ -1,15 +1,11 @@
 {
   "name": "road-work-safety",
   "productName": "RoadWorkSafety",
-  "version": "2.0.0",
-  "description": "My scrumtrulescent app",
+  "description": "Instructional Application for use with the ITRE Road Work Safety Training Course",
+  "version": "0.0.1",
+  "author": "Devin Cremins <drcremin@ncsu.edu>",
+  "homepage": "http://octopusoddments.com",
   "license": "MIT",
-  "repository": "dcremins/road-work-safety",
-  "author": {
-    "name": "Devin Cremins",
-    "email": "drcremin@ncsu.edu",
-    "url": "octopusoddments.com"
-  },
   "main": "app/app.js",
   "scripts": {
     "test": "xo",
