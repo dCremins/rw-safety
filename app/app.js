@@ -7,8 +7,7 @@ const url = require('url')
 const app = electron.app
 
 // Adds debug features like hotkeys for triggering dev tools and reload
-//require('electron-debug')()
-//require('electron-reload')(__dirname)
+
 // Prevent window being garbage collected
 let mainWindow
 
@@ -19,11 +18,7 @@ function onClosed() {
 }
 
 function createMainWindow() {
-// const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
-//  win = new BrowserWindow({width * .5, height * .5})
 	const win = new electron.BrowserWindow({
-		// width: width,
-		// height: height
 		backgroundColor: '#FFFFFF',
 		width: 1000,
 		height: 700
