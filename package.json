@@ -9,7 +9,7 @@
   "main": "app/app.js",
   "scripts": {
     "test": "xo",
-    "release": "build",
+    "release": "gulp bundle && build --publish onTagOrDraft",
     "start": "gulp compile",
     "pack": "electron-builder --dir",
     "dist": "gulp bundle && electron-builder --publish=always"
@@ -49,11 +49,8 @@
     "three-trackballcontrols": "^0.0.6"
   },
   "devDependencies": {
-    "devtron": "^1.1.0",
     "electron": "^1.3.3",
-    "electron-builder": "^19.37.2",
-    "electron-debug": "^1.0.0",
-    "electron-packager": "^8.0.0",
+    "electron-builder": "^19.40.0",
     "electron-reload": "^1.2.2",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
@@ -62,13 +59,8 @@
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
-    "gulp-uglify-es": "^0.1.3",
-    "gulp-uglifyes": "^0.1.2",
-    "pump": "^1.0.2",
     "require-dir": "^0.3.2",
-    "stats.js": "^0.17.0",
-    "uglify-es": "^3.1.3",
-    "uglify-js": "^3.1.4",
+    "uglify-es": "^3.1.5",
     "xo": "^0.18.2"
   },
   "xo": {
