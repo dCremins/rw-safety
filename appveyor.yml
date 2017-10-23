@@ -25,4 +25,5 @@ test_script:
 build_script:
   - node --version
   - npm --version
+  - set DEBUG=electron-builder
   - yarn release
