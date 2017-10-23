@@ -3,7 +3,8 @@ build: off
 os: unstable
 
 deploy:
-  - provider: GitHub
+  - provider: Environment
+    name: production
     on:
       appveyor_repo_tag: true
 
@@ -13,6 +14,9 @@ environment:
 
 cache:
   - node_modules -> package.json
+
+init:
+  - git config --global core.autocrlf input
 
 install:
   - ps: Install-Product node $env:nodejs_version
@@ -25,4 +29,4 @@ test_script:
   - yarn test
 
 build_script:
-  - yarn release
+  - yarn dist
