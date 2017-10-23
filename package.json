@@ -9,7 +9,7 @@
   "main": "app/app.js",
   "scripts": {
     "test": "xo",
-    "release": "gulp bundle && build",
+    "release": "gulp bundle && DEBUG=build",
     "start": "gulp compile",
     "pack": "electron-builder --dir",
     "dist": "gulp bundle && electron-builder --publish=always"
@@ -25,6 +25,8 @@
     },
     "publish": {
       "provider": "github",
+			"owner": "dCremins",
+			"repo":"rw-safety",
       "private": false
     },
     "files": [
