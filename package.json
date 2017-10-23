@@ -9,11 +9,14 @@
   "main": "app/app.js",
   "scripts": {
     "test": "xo",
-    "release": "yarn dist",
+    "release": "build",
     "start": "gulp compile",
     "pack": "electron-builder --dir",
-    "dist": "gulp bundle && electron-builder --publish=always",
-    "build": "gulp bundle"
+    "dist": "gulp bundle && electron-builder --publish=always"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dCremins/rw-safety.git"
   },
   "build": {
     "appId": "itre.road.work.safety",
