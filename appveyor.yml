@@ -2,7 +2,10 @@ build: off
 
 os: unstable
 
-skip_tags: true
+deploy:
+  - provider: GitHub
+    on:
+      appveyor_repo_tag: true
 
 environment:
   matrix:
