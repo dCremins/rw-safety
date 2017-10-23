@@ -9,7 +9,7 @@
   "main": "app/app.js",
   "scripts": {
     "test": "xo",
-    "release": "gulp bundle && DEBUG=build",
+    "release": "gulp bundle && build",
     "start": "gulp compile",
     "pack": "electron-builder --dir",
     "dist": "gulp bundle && electron-builder --publish=always"
