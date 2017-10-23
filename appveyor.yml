@@ -3,6 +3,9 @@ version: 0.9.{build}
 platform:
   - x64
 
+cache:
+- node_modules
+
 init:
   - git config --global core.autocrlf input
 
@@ -10,8 +13,7 @@ install:
   - ps: Install-Product node 8 x64
   - git reset --hard HEAD
   - npm install npm -g
-  - npm install
-  - npm prune
+  - yarn
 
 test_script:
   - yarn test
@@ -19,4 +21,4 @@ test_script:
 build_script:
   - node --version
   - npm --version
-  - npm run dist
+  - yarn release
