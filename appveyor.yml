@@ -1,12 +1,3 @@
-build: off
-
-os: unstable
-
-deploy:
-  - provider: Environment
-    name: production
-    on:
-      appveyor_repo_tag: true
 
 environment:
   matrix:
@@ -30,4 +21,4 @@ test_script:
   - yarn test
 
 build_script:
-  - yarn release
+  - yarn dist
