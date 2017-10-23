@@ -20,6 +20,7 @@ init:
 
 install:
   - ps: Install-Product node $env:nodejs_version
+  - git reset --hard HEAD
   - npm install -g npm@latest
   - yarn add electron-builder@next
   - yarn
@@ -29,4 +30,4 @@ test_script:
   - yarn test
 
 build_script:
-  - yarn dist
+  - yarn release
