@@ -12,7 +12,7 @@
     "release": "build",
     "start": "gulp compile",
     "pack": "electron-builder --dir",
-    "dist": "gulp bundle && electron-builder--publish=always -mwl",
+    "dist": "gulp bundle && electron-builder --publish=always -mwl",
     "build": "gulp bundle"
   },
   "build": {
