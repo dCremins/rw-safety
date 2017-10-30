@@ -17,9 +17,8 @@ cache:
   - $HOME/.cache/electron-builder
 
 before_install:
-  - npm i -g npm@version-number
+  - yarn
   - yarn add gulp-cli
 
 script:
-  - yarn
   - yarn release
