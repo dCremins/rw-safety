@@ -30,4 +30,5 @@ before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
 
 script:
-  - yarn release
+  - yarn gulp bundle
+  - yarn electron-builder --ml
