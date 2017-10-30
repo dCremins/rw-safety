@@ -50,5 +50,5 @@ app.on('ready', () => {
 	mainWindow = createMainWindow()
 	mainWindow.openDevTools()
 })
-
+process.env.APP_PATH = app.getAppPath()
 console.timeEnd('init')
