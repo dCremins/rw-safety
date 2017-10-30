@@ -48,7 +48,9 @@ app.on('activate', () => {
 
 app.on('ready', () => {
 	mainWindow = createMainWindow()
-	mainWindow.openDevTools()
+	//mainWindow.openDevTools()
 })
+
 process.env.APP_PATH = app.getAppPath()
+
 console.timeEnd('init')
