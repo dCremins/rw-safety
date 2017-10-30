@@ -20,15 +20,18 @@ function onClosed() {
 function createMainWindow() {
 	const win = new electron.BrowserWindow({
 		backgroundColor: '#FFFFFF',
-		width: 1000,
-		height: 700
+		show: false
 	})
+	win.maximize()
 
 	win.loadURL(url.format({
 		pathname: path.join(__dirname, 'app.html'),
 		protocol: 'file:',
 		slashes: true
 	}))
+
+	win.show()
+
 	win.on('closed', onClosed)
 	return win
 }
@@ -45,6 +48,7 @@ app.on('activate', () => {
 
 app.on('ready', () => {
 	mainWindow = createMainWindow()
+	mainWindow.openDevTools()
 })
 
 console.timeEnd('init')
