@@ -34,9 +34,6 @@
       "node_modules/**/*",
       "package.json"
     ],
-    "extraResources": [
-      "includes/images/**/*"
-    ],
     "win": {
       "target": "nsis"
     }
