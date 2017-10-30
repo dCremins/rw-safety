@@ -1,5 +1,5 @@
 version: 0.1.{build}
-skip_non_tags: true
+skip_tags: true
 
 platform:
   - x64
