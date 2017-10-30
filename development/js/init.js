@@ -16,7 +16,7 @@ function init() {
 }
 
 function initCamera() {
-	camera = new THREE.PerspectiveCamera(60, ((window.innerWidth - 100) / (window.innerHeight - 50)), 1, 100)
+	camera = new THREE.PerspectiveCamera(60, ((window.innerWidth - 150) / (window.innerHeight - 50)), 1, 100)
 	camera.position.set(0, 23, 20)
 	camera.lookAt(0, 0, 0)
 }
@@ -40,12 +40,12 @@ function initLights() {
 
 function initRender() {
 	renderer = new THREE.WebGLRenderer({antialias: true})
-	renderer.setSize(window.innerWidth - 100, window.innerHeight)
-	console.log(window.innerWidth - 100,', ', window.innerHeight)
+	const container = document.getElementById('container')
+	console.log(document.getElementById('sidebar').getBoundingClientRect())
+	renderer.setSize(window.innerWidth - 150, window.innerHeight)
 	renderer.setClearColor(0xFFFFFF, 1)
 	renderer.shadowMap.enabled = true
 	renderer.shadowMap.type = THREE.PCFSoftShadowMap
-	const container = document.getElementById('container')
 	container.appendChild(renderer.domElement)
 	controls = new THREE.OrbitControls(camera, renderer.domElement)
 
