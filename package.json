@@ -25,13 +25,13 @@
     },
     "publish": {
       "provider": "github",
-			"owner": "dCremins",
-			"repo":"rw-safety",
+      "owner": "dCremins",
+      "repo": "rw-safety",
       "private": false
     },
     "files": [
       "**/*",
-			"app/**/*",
+      "app/**/*",
       "node_modules/**/*",
       "package.json"
     ],
@@ -44,6 +44,7 @@
     "electron"
   ],
   "dependencies": {
+    "alloytouch": "^0.2.5",
     "three": "^0.87.1",
     "three-orbit-controls-loader": "^1.0.1",
     "three-trackballcontrols": "^0.0.6"

@@ -1,4 +1,5 @@
 const THREE = require('three')
+const AlloyTouch = require('alloytouch')
 const OrbitControls = require('three-orbit-controls-loader')
 
 OrbitControls(THREE)

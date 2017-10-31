@@ -1,11 +1,10 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/hci24bpecbh8y00j/branch/master?svg=true)](https://ci.appveyor.com/project/dCremins/rw-safety/branch/master)
+
 # road-work-safety
 
 > An ITRE Application
 
-
 ## Dev
-
-
 
 ```
 $ yarn install
@@ -23,7 +22,12 @@ $ yarn start
 $ yarn run build
 ```
 
-Builds the app for macOS, Linux, and Windows, using [electron-packager](https://github.com/electron-userland/electron-packager).
+### Release
+
+```
+$ yarn release
+```
+The Windows build happens automatically when a new commit is pushed to github
 
 
 ## License

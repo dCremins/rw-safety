@@ -44,6 +44,7 @@ function initRender() {
 	console.log(document.getElementById('sidebar').getBoundingClientRect())
 	renderer.setSize(window.innerWidth - 150, window.innerHeight)
 	renderer.setClearColor(0xFFFFFF, 1)
+	renderer.setPixelRatio( window.devicePixelRatio )
 	renderer.shadowMap.enabled = true
 	renderer.shadowMap.type = THREE.PCFSoftShadowMap
 	container.appendChild(renderer.domElement)
@@ -52,7 +53,7 @@ function initRender() {
 	container.addEventListener('mousemove', onDocumentMouseMove, false)
 	container.addEventListener('mouseup', onDocumentMouseCancel, false)
 	container.addEventListener('mousedown', onDocumentMouseDown, false)
-	container.addEventListener('touchmove', onDocumentTouchMove, false)
+	/* container.addEventListener('touchmove', onDocumentTouchMove, false)
 	container.addEventListener('touchstart', onDocumentTouchStart, false)
-	container.addEventListener('touchend', onDocumentTouchEnd, false)
+	container.addEventListener('touchend', onDocumentTouchEnd, false) */
 }
