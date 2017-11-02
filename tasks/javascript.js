@@ -34,6 +34,7 @@ gulp.task('javascript', () => {
 		.pipe(concat('main.js'))
 		.pipe(uglify())
 		.pipe(rename('main.min.js'))
+    .pipe(sourcemaps.write('../app/maps'))
 		.pipe(gulp.dest('./app'))
 })
 

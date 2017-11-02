@@ -1,5 +1,18 @@
 function flagger(color) {
-	const body = new THREE.Geometry()
+	const meshes = new THREE.Geometry()
+	const officeShadows = new THREE.Geometry()
+	const materials = [
+		color,					// 0
+		gray,						// 1
+		jean,						// 2
+		skinTone1,			// 3
+		skinTone2,			// 4
+		skinTone3,			// 5
+		yellow,					// 6
+		truckMaterial,	// 7
+		shadows					// 8
+	]
+
 	// Torso
 	const torso = new THREE.BoxGeometry(1, 1.4, 0.8)
 	torso.translate(0, 0.1, 0)
@@ -11,10 +24,173 @@ function flagger(color) {
 	torso.vertices[4].x += 0.15
 	torso.vertices[5].z -= 0.15
 	torso.vertices[5].x += 0.15
-	body.merge(torso)
+	torso.rotateY(-.5)
+	torso.translate(.45, 0, .7)
+	torso.scale(0.5, 0.5, 0.5)
 
+	for (var j = 0; j < torso.faces.length; j++) {
+		torso.faces[j].materialIndex = 0;
+	}
+	meshes.mergeMesh(new THREE.Mesh(torso))
+
+	for (var j = 0; j < torso.faces.length; j++) {
+		torso.faces[j].materialIndex = 8;
+	}
+	meshes.mergeMesh(new THREE.Mesh(torso))
+
+
+// Hat
+	const hat = new THREE.Geometry()
+	const dome = new THREE.SphereGeometry(0.2, 32, 32, 1, 6.3, 0, 1.5)
+	dome.translate(0, 0.7, 0)
+	hat.merge(dome)
+	const brim = new THREE.CylinderGeometry(0.2, 0.2, 0.02, 32)
+	brim.translate(0, 0.72, 0.1)
+	hat.merge(brim)
+	hat.rotateY(-.5)
+	hat.translate(.225, 0, .345)
+
+	for (var j = 0; j < hat.faces.length; j++) {
+		hat.faces[j].materialIndex = 0;
+	}
+	meshes.mergeMesh(new THREE.Mesh(hat))
+
+	for (var j = 0; j < hat.faces.length; j++) {
+		hat.faces[j].materialIndex = 8;
+	}
+	meshes.mergeMesh(new THREE.Mesh(hat))
+// Vest
+	const vestGeometry = new THREE.Geometry()
+	const left = new THREE.BoxGeometry(0.2, 0.5, 0.4)
+	left.translate(-0.13, 0.17, 0)
+	left.vertices[0].z -= 0.05
+	left.vertices[1].z += 0.05
+	left.vertices[4].z += 0.05
+	left.vertices[4].x += 0.05
+	left.vertices[5].z -= 0.05
+	left.vertices[5].x += 0.05
+	vestGeometry.merge(left)
+	const right = new THREE.BoxGeometry(0.2, 0.5, 0.4)
+	right.translate(0.13, 0.17, 0)
+	right.vertices[5].z -= 0.05
+	right.vertices[4].z += 0.05
+	right.vertices[1].z += 0.05
+	right.vertices[1].x -= 0.05
+	right.vertices[0].z -= 0.05
+	right.vertices[0].x -= 0.05
+	vestGeometry.merge(right)
+	const back = new THREE.BoxGeometry(0.2, 0.5, 0.025)
+	back.translate(0, 0.17, -0.1875)
+	back.vertices[0].z += 0.05
+	back.vertices[1].z += 0.05
+	back.vertices[4].z += 0.05
+	back.vertices[5].z += 0.05
+	vestGeometry.merge(back)
+	vestGeometry.rotateY(-.5)
+	vestGeometry.translate(.225, 0, .345)
+
+	for (var j = 0; j < vestGeometry.faces.length; j++) {
+		vestGeometry.faces[j].materialIndex = 7;
+	}
+	meshes.mergeMesh(new THREE.Mesh(vestGeometry))
+
+	for (var j = 0; j < vestGeometry.faces.length; j++) {
+		vestGeometry.faces[j].materialIndex = 8;
+	}
+	meshes.mergeMesh(new THREE.Mesh(vestGeometry))
+	// Stripes
+	const vestStripes = new THREE.Geometry()
+	let stripe = new THREE.BoxGeometry(0.05, 0.5, 0.001)
+	stripe.translate(-0.11, 0.17, 0.201)
+	stripe.vertices[0].z -= 0.05
+	stripe.vertices[1].z -= 0.05
+	stripe.vertices[4].z -= 0.05
+	stripe.vertices[5].z -= 0.05
+	vestStripes.merge(stripe)
+	stripe.translate(0.22, 0, 0)
+	vestStripes.merge(stripe)
+	stripe = new THREE.BoxGeometry(0.05, 0.5, 0.001)
+	stripe.translate(-0.11, 0.17, -0.201)
+	stripe.vertices[0].z += 0.05
+	stripe.vertices[1].z += 0.05
+	stripe.vertices[4].z += 0.05
+	stripe.vertices[5].z += 0.05
+	vestStripes.merge(stripe)
+	stripe.translate(0.22, 0, 0)
+	vestStripes.merge(stripe)
+	stripe = new THREE.BoxGeometry(0.05, 0.001, 0.3)
+	stripe.translate(-0.11, 0.42, 0)
+	vestStripes.merge(stripe)
+	stripe.translate(0.22, 0, 0)
+	vestStripes.merge(stripe)
+	stripe = new THREE.BoxGeometry(0.2, 0.2, 0.001)
+	stripe.translate(-0.13, 0.02, 0.201)
+	stripe.vertices[4].x += 0.02
+	stripe.vertices[5].x += 0.02
+	stripe.vertices[0].z -= 0.02
+	stripe.vertices[1].z -= 0.02
+	stripe.vertices[4].z -= 0.02
+	stripe.vertices[5].z -= 0.02
+	vestStripes.merge(stripe)
+	stripe = new THREE.BoxGeometry(0.2, 0.2, 0.001)
+	stripe.translate(0.13, 0.02, 0.201)
+	stripe.vertices[0].x -= 0.02
+	stripe.vertices[1].x -= 0.02
+	stripe.vertices[0].z -= 0.02
+	stripe.vertices[1].z -= 0.02
+	stripe.vertices[4].z -= 0.02
+	stripe.vertices[5].z -= 0.02
+	vestStripes.merge(stripe)
+	stripe = new THREE.BoxGeometry(0.001, 0.2, 0.4)
+	stripe.translate(-0.23, 0.02, 0)
+	stripe.vertices[0].x += 0.02
+	stripe.vertices[1].x += 0.02
+	stripe.vertices[4].x += 0.02
+	stripe.vertices[5].x += 0.02
+	stripe.vertices[0].z -= 0.02
+	stripe.vertices[1].z += 0.02
+	stripe.vertices[4].z += 0.02
+	stripe.vertices[5].z -= 0.02
+	vestStripes.merge(stripe)
+	stripe = new THREE.BoxGeometry(0.001, 0.2, 0.4)
+	stripe.translate(0.23, 0.02, 0)
+	stripe.vertices[0].x -= 0.02
+	stripe.vertices[1].x -= 0.02
+	stripe.vertices[4].x -= 0.02
+	stripe.vertices[5].x -= 0.02
+	stripe.vertices[0].z -= 0.02
+	stripe.vertices[1].z += 0.02
+	stripe.vertices[4].z += 0.02
+	stripe.vertices[5].z -= 0.02
+	vestStripes.merge(stripe)
+	stripe = new THREE.BoxGeometry(0.45, 0.2, 0.001)
+	stripe.translate(0, 0.02, -0.201)
+	stripe.vertices[0].x -= 0.02
+	stripe.vertices[1].x -= 0.02
+	stripe.vertices[4].x += 0.02
+	stripe.vertices[5].x += 0.02
+	stripe.vertices[0].z += 0.02
+	stripe.vertices[1].z += 0.02
+	stripe.vertices[4].z += 0.02
+	stripe.vertices[5].z += 0.02
+	vestStripes.merge(stripe)
+	vestStripes.rotateY(-.5)
+	vestStripes.translate(.225, 0, .345)
+
+	for (var j = 0; j < vestStripes.faces.length; j++) {
+		vestStripes.faces[j].materialIndex = 6;
+	}
+	meshes.mergeMesh(new THREE.Mesh(vestStripes))
+
+	for (var j = 0; j < vestStripes.faces.length; j++) {
+		vestStripes.faces[j].materialIndex = 8;
+	}
+	meshes.mergeMesh(new THREE.Mesh(vestStripes))
+
+
+	const pants = new THREE.Geometry()
 	// Legs
-	const leftLeg = new THREE.BoxGeometry(0.5, 0.8, 0.8)
+	let leftLeg = new THREE.BoxGeometry(0.5, 0.8, 0.8)
 	leftLeg.translate(-0.25, -1, 0)
 	leftLeg.vertices[0].x -= 0.1
 	leftLeg.vertices[1].x -= 0.1
@@ -24,7 +200,7 @@ function flagger(color) {
 	leftLeg.vertices[3].z += 0.3
 	leftLeg.vertices[6].z += 0.3
 	leftLeg.vertices[7].z -= 0.3
-	body.merge(leftLeg)
+	pants.merge(leftLeg)
 	const rightLeg = new THREE.BoxGeometry(0.5, 0.8, 0.8)
 	rightLeg.translate(0.25, -1, 0)
 	rightLeg.vertices[4].x += 0.1
@@ -35,8 +211,22 @@ function flagger(color) {
 	rightLeg.vertices[6].z += 0.3
 	rightLeg.vertices[7].x += 0.3
 	rightLeg.vertices[7].z -= 0.3
-	body.merge(rightLeg)
+	pants.merge(rightLeg)
+	pants.rotateY(-.5)
+	pants.translate(.45, 0, .7)
+	pants.scale(0.5, 0.5, 0.5)
 
+	for (var j = 0; j < pants.faces.length; j++) {
+		pants.faces[j].materialIndex = 2;
+	}
+	meshes.mergeMesh(new THREE.Mesh(pants))
+
+	for (var j = 0; j < pants.faces.length; j++) {
+		pants.faces[j].materialIndex = 8;
+	}
+	meshes.mergeMesh(new THREE.Mesh(pants))
+
+	const body = new THREE.Geometry()
 	// Arms
 	const rightArm1 = new THREE.BoxGeometry(0.5, 0.4, 0.5)
 	rightArm1.translate(0.64, 0.6, 0)
@@ -100,94 +290,107 @@ function flagger(color) {
 	const head = new THREE.SphereGeometry(0.35, 32, 32)
 	head.translate(0, 1.3, 0)
 	body.merge(head)
+	body.rotateY(-.5)
+	body.translate(.45, 0, .7)
+	body.scale(0.5, 0.5, 0.5)
+		let min = Math.ceil(3)
+  	let max = Math.floor(5)
+		let skinTone = Math.floor(Math.random() * (max - min)) + min
+
+	for (var j = 0; j < body.faces.length; j++) {
+		body.faces[j].materialIndex = skinTone
+	}
+	meshes.mergeMesh(new THREE.Mesh(body))
+
+	for (var j = 0; j < body.faces.length; j++) {
+		body.faces[j].materialIndex = 8;
+	}
+	meshes.mergeMesh(new THREE.Mesh(body))
 
 	// Flag
-	const object = new THREE.Geometry()
-	object.vertices.push(new THREE.Vector3(0, 0.15, 0))
-	for (let i = 0; i <= 7; i++) {
-		const angle = (i * 2 * Math.PI / 8)
-		object.vertices.push(new THREE.Vector3(0.6 * Math.sin(angle), 0.15, 0.6 * Math.cos(angle)))
+	const object = new THREE.CylinderGeometry(.4, .4, .1, 8)
+	object.translate(.75, .25, -.55)
+	object.rotateZ(1.25)
+	object.rotateY(.75)
+	object.rotateX(.5)
+
+	for (var j = 0; j < object.faces.length; j++) {
+		object.faces[j].materialIndex = 0;
 	}
-	object.vertices.push(new THREE.Vector3(0, 0, 0))
-	for (let i = 7; i >= 0; i--) {
-		const angle = (i * 2 * Math.PI / 8)
-		object.vertices.push(new THREE.Vector3(0.6 * Math.sin(angle), 0, 0.6 * Math.cos(angle)))
+	meshes.mergeMesh(new THREE.Mesh(object))
+
+	for (var j = 0; j < object.faces.length; j++) {
+		object.faces[j].materialIndex = 8;
 	}
-	object.faces.push(new THREE.Face3(0, 1, 2))
-	object.faces.push(new THREE.Face3(0, 2, 3))
-	object.faces.push(new THREE.Face3(0, 3, 4))
-	object.faces.push(new THREE.Face3(0, 4, 5))
-	object.faces.push(new THREE.Face3(0, 5, 6))
-	object.faces.push(new THREE.Face3(0, 6, 7))
-	object.faces.push(new THREE.Face3(0, 7, 8))
-	object.faces.push(new THREE.Face3(0, 8, 1))
-	object.faces.push(new THREE.Face3(9, 10, 11))
-	object.faces.push(new THREE.Face3(9, 11, 12))
-	object.faces.push(new THREE.Face3(9, 12, 13))
-	object.faces.push(new THREE.Face3(9, 13, 14))
-	object.faces.push(new THREE.Face3(9, 14, 15))
-	object.faces.push(new THREE.Face3(9, 15, 16))
-	object.faces.push(new THREE.Face3(9, 16, 17))
-	object.faces.push(new THREE.Face3(9, 17, 10))
-	object.faces.push(new THREE.Face3(5, 4, 14))
-	object.faces.push(new THREE.Face3(14, 13, 5))
-	object.faces.push(new THREE.Face3(4, 3, 15))
-	object.faces.push(new THREE.Face3(15, 14, 4))
-	object.faces.push(new THREE.Face3(3, 2, 16))
-	object.faces.push(new THREE.Face3(16, 15, 3))
-	object.faces.push(new THREE.Face3(2, 1, 17))
-	object.faces.push(new THREE.Face3(17, 16, 2))
-	object.faces.push(new THREE.Face3(1, 8, 10))
-	object.faces.push(new THREE.Face3(10, 17, 1))
-	object.faces.push(new THREE.Face3(8, 7, 11))
-	object.faces.push(new THREE.Face3(11, 10, 8))
-	object.faces.push(new THREE.Face3(7, 6, 12))
-	object.faces.push(new THREE.Face3(12, 11, 7))
-	object.faces.push(new THREE.Face3(6, 5, 13))
-	object.faces.push(new THREE.Face3(13, 12, 6))
-	object.computeFaceNormals()
-	const sign = new THREE.Mesh(object, safetyOrange)
-	sign.position.set(-0.68, 0.9, 0.02)
-	sign.rotation.x += 0.4
-	sign.rotation.y += 0.6
-	sign.rotation.z += 1.35
-	sign.geometry.scale(0.5, 0.5, 0.5)
-	scene.add(sign)
+	meshes.mergeMesh(new THREE.Mesh(object))
 
-	const stickG = new THREE.CylinderGeometry(0.05, 0.05, 2.4, 32)
-	const stick = new THREE.Mesh(stickG, gray)
-	stick.position.set(-0.7, 0.05, 0.02)
-	stick.geometry.scale(0.5, 0.5, 0.5)
-	scene.add(stick)
+	const stick = new THREE.CylinderGeometry(0.05, 0.05, 2.4, 32)
+	stick.translate(-0.7, 0.05, 0.02)
+	stick.scale(0.5, 0.5, 0.5)
 
-	const person = new THREE.Mesh(body, color)
-	person.position.set(0, 1.2, -1)
-	person.rotation.y -= 1
-	person.geometry.scale(0.5, 0.5, 0.5)
-	person.add(sign)
-	person.add(stick)
+	for (var j = 0; j < stick.faces.length; j++) {
+		stick.faces[j].materialIndex = 1;
+	}
+	meshes.mergeMesh(new THREE.Mesh(stick))
 
-	const shadowPersonGeometry = new THREE.Geometry()
-	const shadowPersonClone = body.clone()
-	shadowPersonGeometry.merge(shadowPersonClone)
-	const stickClone = stickG.clone()
-	stickClone.translate(-0.7, 0.05, 0.02)
-	shadowPersonGeometry.merge(stickClone)
-	const shadowPerson = new THREE.Mesh(shadowPersonGeometry, shadows)
-	shadowPerson.receiveShadow = true
-	const signClone = new THREE.Mesh(object, shadows)
-	signClone.position.set(-0.68, 0.9, 0.02)
-	signClone.rotation.x += 0.4
-	signClone.rotation.y += 0.6
-	signClone.rotation.z += 1.35
-	shadowPerson.add(signClone)
-	person.add(shadowPerson)
+	for (var j = 0; j < stick.faces.length; j++) {
+		stick.faces[j].materialIndex = 8;
+	}
+	meshes.mergeMesh(new THREE.Mesh(stick))
 
-	scene.add(person)
-	flaggers.push(person)
 
-	const person2 = person.clone(true)
+
+	let combinedMesh = new THREE.Mesh(meshes, materials)
+	combinedMesh.castShadow = true
+	combinedMesh.position.set(-1, 1.2, -1)
+	scene.add(combinedMesh)
+	flaggers.push(combinedMesh)
+
+	const person2 = combinedMesh.clone(true)
 	person2.position.set(1, 1.2, -1)
 	scene.add(person2)
 	flaggers.push(person2)
+
+	// Hammer.js
+/*
+	var movable = new Hammer(person2)
+	movable.add( new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0 }) )
+	movable.on("pan", handleDrag)
+	var lastPosX = 0
+	var lastPosY = 0
+	var isDragging = false
+
+	const rect = renderer.domElement.getBoundingClientRect()
+	mouse.x = (((event.clientX - rect.left) / rect.width) * 2) - 1
+	mouse.y = -(((event.clientY - rect.top) / rect.height) * 2) + 1
+	raycaster.setFromCamera(mouse, camera)
+
+	function handleDrag(event) {
+		controls.enabled = false
+		console.log('dragging')
+		var elem = event.target
+		if ( ! isDragging ) {
+	    isDragging = true
+	    lastPosX = elem.offsetLeft
+	    lastPosY = elem.offsetTop
+	  }
+		/*
+		var posX = ev.deltaX + lastPosX
+	  var posY = ev.deltaY + lastPosY
+
+	  elem.style.left = posX + "px"
+	  elem.style.top = posY + "px"
+
+
+		if (selected) {
+			if (raycaster.intersectObjects(objects)) {
+				selected.position.set(0, 1, 0)
+				selected.position.set(raycaster.intersectObjects(objects)[0].point.x, selected.position.y, raycaster.intersectObjects(objects)[0].point.z)
+			}
+		}
+	  if (event.isFinal) {
+	    isDragging = false
+	  }
+
+	} */
 }

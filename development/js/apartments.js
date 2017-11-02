@@ -1,17 +1,17 @@
 function initApartment() {
-	const office = new THREE.Group()
+	const meshes = new THREE.Geometry()
 	const officeShadows = new THREE.Geometry()
-
-  // Foundation
-	const found = new THREE.BoxGeometry(8, 0.5, 8)
-	const step = new THREE.BoxGeometry(8.25, 0.25, 8.25)
-	step.translate(0, -0.125, 0)
-	found.merge(step)
-	const foundShadow = found.clone(true)
-	officeShadows.merge(foundShadow)
-	const buildingFound = new THREE.Mesh(found, foundation)
-	buildingFound.castShadow = true
-	office.add(buildingFound)
+	const materials = [
+		foundation,
+		brick,
+		windowColor,
+		couchFabric,
+		blueFabric,
+		purpleFabric,
+		tanFabric,
+		stone,
+		shadows
+	]
 
   // Outside Walls
 	const base = new THREE.Geometry()
@@ -122,6 +122,16 @@ function initApartment() {
 	innerWall.translate(0, 6.67, 0)
 	base.merge(innerWall)
 
+	for (var j = 0; j < base.faces.length; j++) {
+		base.faces[j].materialIndex = 1;
+	}
+	meshes.mergeMesh(new THREE.Mesh(base))
+
+	for (var j = 0; j < base.faces.length; j++) {
+		base.faces[j].materialIndex = 8;
+	}
+	meshes.mergeMesh(new THREE.Mesh(base))
+
   // Windows
 	const windows = new THREE.Geometry()
 	let windowSide = new THREE.BoxGeometry(7, 9.5, 0.1)
@@ -134,11 +144,23 @@ function initApartment() {
 	windows.merge(windowSide)
 	windowSide.translate(-7, 0, 0)
 	windows.merge(windowSide)
-	const windowMesh = new THREE.Mesh(windows, windowColor)
-	office.add(windowMesh)
 
-  // Roof
+	for (var j = 0; j < windows.faces.length; j++) {
+		windows.faces[j].materialIndex = 2;
+	}
+	meshes.mergeMesh(new THREE.Mesh(windows))
+
+  // Roof & Foundation
+
 	const cap = new THREE.Geometry()
+
+	const found = new THREE.BoxGeometry(8, 0.5, 8)
+	cap.merge(found)
+
+	const step = new THREE.BoxGeometry(8.25, 0.25, 8.25)
+	step.translate(0, -0.125, 0)
+	cap.merge(step)
+
 	const capLeft = new THREE.BoxGeometry(0.25, 0.5, 7.375)
 	capLeft.translate(-3.88, 10.5, 0.05)
 	cap.merge(capLeft)
@@ -245,150 +267,143 @@ function initApartment() {
 	doorSillSide.translate(1, 0, 0)
 	cap.merge(doorSillSide)
   // Add to building
-	const roofShadow = cap.clone(true)
-	officeShadows.merge(roofShadow)
-	const roof = new THREE.Mesh(cap, foundation)
-	roof.castShadow = true
-	office.add(roof)
+	for (var j = 0; j < cap.faces.length; j++) {
+		cap.faces[j].materialIndex = 0;
+	}
+	meshes.mergeMesh(new THREE.Mesh(cap))
 
-  // Assemble
-	const baseShadow = base.clone(true)
-	officeShadows.merge(baseShadow)
-	const building = new THREE.Mesh(base, brick)
-	building.castShadow = true
-	office.add(building)
-	const buildingShadows = new THREE.Mesh(officeShadows, shadows)
-	buildingShadows.receiveShadow = true
-	office.add(buildingShadows)
+	for (var j = 0; j < cap.faces.length; j++) {
+		cap.faces[j].materialIndex = 8;
+	}
+	officeShadows.mergeMesh(new THREE.Mesh(cap))
 
   // Set Decorations
-	const decorations = new THREE.Group()
-	const decorationShadows = new THREE.Geometry()
-  // Couch
-	const couchGeometry = new THREE.Geometry()
+	const Green = new THREE.Geometry()
+	const Blue = new THREE.Geometry()
+	const Purple = new THREE.Geometry()
+	const Tan = new THREE.Geometry()
+
 	const couchSeat = new THREE.BoxGeometry(0.75, 0.25, 1.65)
 	couchSeat.translate(-1, 6.75, -0.01)
-	couchGeometry.merge(couchSeat)
+	Green.merge(couchSeat)
+	Blue.merge(couchSeat)
+	Purple.merge(couchSeat)
+	Tan.merge(couchSeat)
+
 	const couchBack = new THREE.BoxGeometry(0.25, 0.75, 1.65)
 	couchBack.translate(-0.5, 7, -0.01)
-	couchGeometry.merge(couchBack)
+	Green.merge(couchBack)
+	Blue.merge(couchBack)
+	Purple.merge(couchBack)
+	Tan.merge(couchBack)
+
 	const armRest = new THREE.BoxGeometry(1, 0.5, 0.25)
 	armRest.translate(-0.87, 6.87, 0.92)
-	couchGeometry.merge(armRest)
+	Green.merge(armRest)
+	Blue.merge(armRest)
+	Purple.merge(armRest)
+	Tan.merge(armRest)
 	armRest.translate(0, 0, -1.84)
-	couchGeometry.merge(armRest)
+	Green.merge(armRest)
+	Blue.merge(armRest)
+	Purple.merge(armRest)
+	Tan.merge(armRest)
+
 	const cushion = new THREE.BoxGeometry(0.75, 0.15, 0.5)
 	cushion.translate(-1, 6.86, 0)
-	couchGeometry.merge(cushion)
+	Green.merge(cushion)
+	Blue.merge(cushion)
+	Purple.merge(cushion)
+	Tan.merge(cushion)
 	cushion.translate(0, 0, -0.52)
-	couchGeometry.merge(cushion)
+	Green.merge(cushion)
+	Blue.merge(cushion)
+	Purple.merge(cushion)
+	Tan.merge(cushion)
 	cushion.translate(0, 0, 1.04)
-	couchGeometry.merge(cushion)
-	couchGeometry.rotateY(1.25)
-	couchGeometry.translate(-1.25, 0, -3)
-	let couchShadow = couchGeometry.clone(true)
-	decorationShadows.merge(couchShadow)
-	const couch = new THREE.Mesh(couchGeometry, couchFabric)
-	couch.castShadow = true
-	decorations.add(couch)
+	Green.merge(cushion)
+	Blue.merge(cushion)
+	Purple.merge(cushion)
+	Tan.merge(cushion)
 
-	const blueCouch = couchGeometry.clone(true)
-	blueCouch.rotateY(2)
-	blueCouch.translate(2.5, 0, -1)
-	couchShadow = blueCouch.clone(true)
-	decorationShadows.merge(couchShadow)
-	const couch2 = new THREE.Mesh(blueCouch, blueFabric)
-	couch2.castShadow = true
-	decorations.add(couch2)
 
-	const purpleCouch = couchGeometry.clone(true)
-	purpleCouch.rotateY(-1)
-	purpleCouch.translate(1.5, -3.5, 1)
-	couchShadow = purpleCouch.clone(true)
-	decorationShadows.merge(couchShadow)
-	const couch3 = new THREE.Mesh(purpleCouch, purpleFabric)
-	couch3.castShadow = true
-	decorations.add(couch3)
+	Green.rotateY(1.25)
+	Green.translate(-1.25, 0, -3)
+	Blue.rotateY(-1.25)
+	Blue.translate(2.25, 0, 3.25)
+	Purple.rotateY(1)
+	Purple.translate(2.5, -3.5, -3.25)
+	Tan.rotateY(-1.5)
+	Tan.translate(-2.25, -3.5, 3.25)
 
-	const tanCouch = couchGeometry.clone(true)
-	tanCouch.rotateY(3.5)
-	tanCouch.translate(-3.75, -3.5, 0.5)
-	couchShadow = tanCouch.clone(true)
-	decorationShadows.merge(couchShadow)
-	const couch4 = new THREE.Mesh(tanCouch, tanFabric)
-	couch4.castShadow = true
-	decorations.add(couch4)
-
-  // Bed
-	const bed = new THREE.Group()
-	const sheets = new THREE.BoxGeometry(2, 0.1, 1)
-	sheets.translate(-1.5, 3.7, -2)
-	const sheetsSide = new THREE.BoxGeometry(2, 0.5, 0.1)
-	sheetsSide.translate(-1.5, 3.5, -1.5)
-	sheets.merge(sheetsSide)
-	sheetsSide.translate(0, 0, -1)
-	sheets.merge(sheetsSide)
-	const sheetsEnd = new THREE.BoxGeometry(0.1, 0.5, 1.1)
-	sheetsEnd.translate(-0.5, 3.5, -2)
-	sheets.merge(sheetsEnd)
+	const sheets = new THREE.BoxGeometry(2.2, 0.5, 1.2)
+	sheets.translate(-1.5, 3.55, -2)
 	sheets.rotateY(-1.55)
 	sheets.translate(-3, 0, 0)
-	let sheetsShadow = sheets.clone(true)
-	decorationShadows.merge(sheetsShadow)
-	const bedSheet = new THREE.Mesh(sheets, blueFabric)
-	bedSheet.castShadow = true
-	bed.add(bedSheet)
-	const sheets2 = sheets.clone()
-	sheets2.rotateY(1.55)
-	sheets2.translate(3.5, 0, 1)
-	sheetsShadow = sheets2.clone(true)
-	decorationShadows.merge(sheetsShadow)
-	const bedSheet2 = new THREE.Mesh(sheets2, couchFabric)
-	bed.add(bedSheet2)
-	const sheets3 = sheets.clone()
-	sheets3.rotateY(1.55)
-	sheets3.translate(3.5, 3.5, -3)
-	sheetsShadow = sheets3.clone(true)
-	decorationShadows.merge(sheetsShadow)
-	const bedSheet3 = new THREE.Mesh(sheets3, purpleFabric)
-	bed.add(bedSheet3)
-	const sheets4 = sheets.clone()
-	sheets4.rotateY(3.14)
-	sheets4.translate(-2.05, 3.5, -0.5)
-	sheetsShadow = sheets4.clone(true)
-	decorationShadows.merge(sheetsShadow)
-	const bedSheet4 = new THREE.Mesh(sheets4, blueFabric)
-	bed.add(bedSheet4)
+	Blue.merge(sheets)
+	sheets.translate(0, 3.5, 3)
+	Purple.merge(sheets)
+	sheets.rotateY(1.55)
+	sheets.translate(.325, 0, -3.075)
+	Purple.merge(sheets)
+	sheets.translate(-.75, -3.5, 3.985)
+	Green.merge(sheets)
+
+  // Green
+	for (var j = 0; j < Green.faces.length; j++) {
+		Green.faces[j].materialIndex = 3;
+	}
+	meshes.mergeMesh(new THREE.Mesh(Green))
+
+	// Blue
+	for (var j = 0; j < Blue.faces.length; j++) {
+		Blue.faces[j].materialIndex = 4;
+	}
+	meshes.mergeMesh(new THREE.Mesh(Blue))
+
+	// Purple
+	for (var j = 0; j < Purple.faces.length; j++) {
+		Purple.faces[j].materialIndex = 5;
+	}
+	meshes.mergeMesh(new THREE.Mesh(Purple))
+
+	// Tan
+	for (var j = 0; j < Tan.faces.length; j++) {
+		Tan.faces[j].materialIndex = 6;
+	}
+	meshes.mergeMesh(new THREE.Mesh(Tan))
+
 
 	const mattress = new THREE.BoxGeometry(2.5, 0.45, 1)
 	mattress.rotateY(-1.55)
 	mattress.translate(-1.02, 3.475, -1.75)
-	let mattressShadow = mattress.clone(true)
-	decorationShadows.merge(mattressShadow)
-	const bedMattress = new THREE.Mesh(mattress, tanFabric)
-	bed.add(bedMattress)
+	for (var j = 0; j < mattress.faces.length; j++) {
+		mattress.faces[j].materialIndex = 6;
+	}
+	meshes.mergeMesh(new THREE.Mesh(mattress))
+
 	const mattress2 = mattress.clone()
 	mattress2.rotateY(1.55)
 	mattress2.translate(3.3, 0, 1)
-	mattressShadow = mattress2.clone(true)
-	decorationShadows.merge(mattressShadow)
-	const bedMattress2 = new THREE.Mesh(mattress2, tanFabric)
-	bed.add(bedMattress2)
+	for (var j = 0; j < mattress2.faces.length; j++) {
+		mattress2.faces[j].materialIndex = 6;
+	}
+	meshes.mergeMesh(new THREE.Mesh(mattress2))
+
 	const mattress3 = mattress.clone()
 	mattress3.rotateY(1.55)
 	mattress3.translate(3.3, 3.5, -3)
-	mattressShadow = mattress3.clone(true)
-	decorationShadows.merge(mattressShadow)
-	const bedMattress3 = new THREE.Mesh(mattress3, tanFabric)
-	bed.add(bedMattress3)
+	for (var j = 0; j < mattress3.faces.length; j++) {
+		mattress3.faces[j].materialIndex = 6;
+	}
+	meshes.mergeMesh(new THREE.Mesh(mattress3))
+
 	const mattress4 = mattress.clone()
 	mattress4.translate(0, 3.5, 3)
-	mattressShadow = mattress4.clone(true)
-	decorationShadows.merge(mattressShadow)
-	const bedMattress4 = new THREE.Mesh(mattress4, tanFabric)
-	bed.add(bedMattress4)
-
-	decorations.add(bed)
+	for (var j = 0; j < mattress4.faces.length; j++) {
+		mattress4.faces[j].materialIndex = 6;
+	}
+	meshes.mergeMesh(new THREE.Mesh(mattress4))
 
   // Lobby
 	const lobbyDesk = new THREE.Geometry()
@@ -406,18 +421,15 @@ function initApartment() {
 	deskFront = new THREE.BoxGeometry(3.1, 0.1, 1.1)
 	deskFront.translate(0, 1.65, -1)
 	lobbyDesk.merge(deskFront)
-	const lobbyShadow = lobbyDesk.clone(true)
-	decorationShadows.merge(lobbyShadow)
-	const lobby = new THREE.Mesh(lobbyDesk, stone)
-	decorations.add(lobby)
+	for (var j = 0; j < lobbyDesk.faces.length; j++) {
+		lobbyDesk.faces[j].materialIndex = 7;
+	}
+	meshes.mergeMesh(new THREE.Mesh(lobbyDesk))
 
-	const interiorShadows = new THREE.Mesh(decorationShadows, shadows)
-	interiorShadows.receiveShadow = true
-	office.add(interiorShadows)
+// Create the combined mesh
+let combinedMesh = new THREE.Mesh(meshes, materials)
+combinedMesh.position.set(-11, 0.75, -9)
+combinedMesh.castShadow = true
+scene.add(combinedMesh)
 
-	office.add(decorations)
-
-  // Add to scene
-	office.position.set(-11, 0.75, -9)
-	scene.add(office)
 }

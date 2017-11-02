@@ -1,8 +1,4 @@
-const THREE = require('three')
-const AlloyTouch = require('alloytouch')
-const OrbitControls = require('three-orbit-controls-loader')
 
-OrbitControls(THREE)
 
 /* Variables */
 let scene
@@ -56,19 +52,19 @@ const gray = new THREE.MeshLambertMaterial({color: 0x555555})
 const palegray = new THREE.MeshLambertMaterial({color: 0xA5A5A5})
 const jean = new THREE.MeshLambertMaterial({color: 0x416BAD})
 // Signs
-const workerSign = new THREE.TextureLoader().load('includes/images/sign-01.png')
+const workerSign = new THREE.TextureLoader().load('images/sign-01.png')
 const workerSignMaterial = new THREE.MeshBasicMaterial({map: workerSign})
-const flaggerSign = new THREE.TextureLoader().load('includes/images/sign-02.png')
+const flaggerSign = new THREE.TextureLoader().load('images/sign-02.png')
 const flaggerSignMaterial = new THREE.MeshBasicMaterial({map: flaggerSign})
-const flagAheadSign = new THREE.TextureLoader().load('includes/images/sign-03.png')
+const flagAheadSign = new THREE.TextureLoader().load('images/sign-03.png')
 const flagAheadSignMaterial = new THREE.MeshBasicMaterial({map: flagAheadSign})
-const menWorkSign = new THREE.TextureLoader().load('includes/images/sign-04.png')
+const menWorkSign = new THREE.TextureLoader().load('images/sign-04.png')
 const menWorkSignMaterial = new THREE.MeshBasicMaterial({map: menWorkSign})
-const prepareStopSign = new THREE.TextureLoader().load('includes/images/sign-05.png')
+const prepareStopSign = new THREE.TextureLoader().load('images/sign-05.png')
 const prepareStopSignMaterial = new THREE.MeshBasicMaterial({map: prepareStopSign})
-const oneLaneSign = new THREE.TextureLoader().load('includes/images/sign-06.png')
+const oneLaneSign = new THREE.TextureLoader().load('images/sign-06.png')
 const oneLaneSignMaterial = new THREE.MeshBasicMaterial({map: oneLaneSign})
-const workAheadSign = new THREE.TextureLoader().load('includes/images/sign-07.png')
+const workAheadSign = new THREE.TextureLoader().load('images/sign-07.png')
 const workAheadSignMaterial = new THREE.MeshBasicMaterial({map: workAheadSign})
 // Geometry
 const tallTree = new THREE.Geometry()
