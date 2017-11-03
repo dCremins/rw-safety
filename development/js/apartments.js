@@ -1,16 +1,14 @@
 function initApartment() {
-	const meshes = new THREE.Geometry()
-	const officeShadows = new THREE.Geometry()
+	let meshes = new THREE.Geometry()
+	let officeShadows = new THREE.Geometry()
 	const materials = [
-		foundation,
-		brick,
-		windowColor,
-		couchFabric,
-		blueFabric,
-		purpleFabric,
-		tanFabric,
-		stone,
-		shadows
+		offwhite,			// 0
+		brick,				// 1
+		windowColor,	// 2
+		green,				// 3
+		blue,					// 4
+		purple,				// 5
+		stone					// 6
 	]
 
   // Outside Walls
@@ -125,12 +123,9 @@ function initApartment() {
 	for (var j = 0; j < base.faces.length; j++) {
 		base.faces[j].materialIndex = 1;
 	}
-	meshes.mergeMesh(new THREE.Mesh(base))
 
-	for (var j = 0; j < base.faces.length; j++) {
-		base.faces[j].materialIndex = 8;
-	}
 	meshes.mergeMesh(new THREE.Mesh(base))
+	officeShadows.mergeMesh(new THREE.Mesh(base))
 
   // Windows
 	const windows = new THREE.Geometry()
@@ -172,7 +167,6 @@ function initApartment() {
 	capFront.translate(0, 0, -7.6)
 	cap.merge(capFront)
   // Sill
-  // Fronts - bottom
 	const sillBottom = new THREE.Geometry()
 	const sill1 = new THREE.BoxGeometry(1.5, 0.1, 0.1)
 	sill1.translate(-2.6, 7.125, 3.8)
@@ -271,10 +265,6 @@ function initApartment() {
 		cap.faces[j].materialIndex = 0;
 	}
 	meshes.mergeMesh(new THREE.Mesh(cap))
-
-	for (var j = 0; j < cap.faces.length; j++) {
-		cap.faces[j].materialIndex = 8;
-	}
 	officeShadows.mergeMesh(new THREE.Mesh(cap))
 
   // Set Decorations
@@ -349,6 +339,18 @@ function initApartment() {
 	sheets.translate(-.75, -3.5, 3.985)
 	Green.merge(sheets)
 
+	const mattress = new THREE.BoxGeometry(2.5, 0.45, 1)
+	mattress.rotateY(-1.55)
+	mattress.translate(-1.02, 3.475, -1.75)
+	Tan.merge(mattress)
+	mattress.translate(0, 3.5, 3.5)
+	Tan.merge(mattress)
+	mattress.rotateY(1.55)
+	mattress.translate(.25, 0, -3.12)
+	Tan.merge(mattress)
+	mattress.translate(-.75, -3.5, 3.95)
+	Tan.merge(mattress)
+
   // Green
 	for (var j = 0; j < Green.faces.length; j++) {
 		Green.faces[j].materialIndex = 3;
@@ -374,37 +376,6 @@ function initApartment() {
 	meshes.mergeMesh(new THREE.Mesh(Tan))
 
 
-	const mattress = new THREE.BoxGeometry(2.5, 0.45, 1)
-	mattress.rotateY(-1.55)
-	mattress.translate(-1.02, 3.475, -1.75)
-	for (var j = 0; j < mattress.faces.length; j++) {
-		mattress.faces[j].materialIndex = 6;
-	}
-	meshes.mergeMesh(new THREE.Mesh(mattress))
-
-	const mattress2 = mattress.clone()
-	mattress2.rotateY(1.55)
-	mattress2.translate(3.3, 0, 1)
-	for (var j = 0; j < mattress2.faces.length; j++) {
-		mattress2.faces[j].materialIndex = 6;
-	}
-	meshes.mergeMesh(new THREE.Mesh(mattress2))
-
-	const mattress3 = mattress.clone()
-	mattress3.rotateY(1.55)
-	mattress3.translate(3.3, 3.5, -3)
-	for (var j = 0; j < mattress3.faces.length; j++) {
-		mattress3.faces[j].materialIndex = 6;
-	}
-	meshes.mergeMesh(new THREE.Mesh(mattress3))
-
-	const mattress4 = mattress.clone()
-	mattress4.translate(0, 3.5, 3)
-	for (var j = 0; j < mattress4.faces.length; j++) {
-		mattress4.faces[j].materialIndex = 6;
-	}
-	meshes.mergeMesh(new THREE.Mesh(mattress4))
-
   // Lobby
 	const lobbyDesk = new THREE.Geometry()
 	let deskFront = new THREE.BoxGeometry(3, 1, 0.1)
@@ -422,14 +393,21 @@ function initApartment() {
 	deskFront.translate(0, 1.65, -1)
 	lobbyDesk.merge(deskFront)
 	for (var j = 0; j < lobbyDesk.faces.length; j++) {
-		lobbyDesk.faces[j].materialIndex = 7;
+		lobbyDesk.faces[j].materialIndex = 6;
 	}
 	meshes.mergeMesh(new THREE.Mesh(lobbyDesk))
 
 // Create the combined mesh
+meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 let combinedMesh = new THREE.Mesh(meshes, materials)
 combinedMesh.position.set(-11, 0.75, -9)
 combinedMesh.castShadow = true
+
+let combinedShadow = new THREE.Mesh(officeShadows, shadows)
+combinedShadow.position.set(-11, 0.75, -9)
+combinedShadow.receiveShadow = true
+
 scene.add(combinedMesh)
+scene.add(combinedShadow)
 
 }

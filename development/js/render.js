@@ -5,7 +5,7 @@ function render() {
 }
 
 function animate() {
-	requestAnimationFrame(animate)
+	//requestAnimationFrame(animate)
 	render()
 	controls.update()
 }

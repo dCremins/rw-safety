@@ -4,7 +4,6 @@ function init() {
 	window.THREE = THREE
 	// Scenery
 	initRoad()
-	initTrees()
 	initShop()
 	initApartment()
 	initBench()
@@ -50,6 +49,7 @@ function initRender() {
 	renderer.shadowMap.type = THREE.PCFSoftShadowMap
 	container.appendChild(renderer.domElement)
 	controls = new THREE.OrbitControls(camera, renderer.domElement)
+	controls.addEventListener( 'change', render )
 	//controls.enabled = false
 
 	//container.addEventListener('mousemove', onDocumentMouseMove, false)

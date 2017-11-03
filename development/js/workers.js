@@ -1,16 +1,21 @@
 function initWorkers()	{
-	const worker = new THREE.Group()
-	const worker2 = new THREE.Group()
-	const worker3 = new THREE.Group()
-	const shadowPerson1 = new THREE.Geometry()
-	const shadowPerson2 = new THREE.Geometry()
-	const shadowPerson3 = new THREE.Geometry()
+	let meshes = new THREE.Geometry()
+	let shadow = new THREE.Geometry()
+	const materials = [
+		offwhite,			// 0
+		windowColor,	// 1
+		gray,					// 2
+		palegray,			// 3
+		red,					// 4
+		orange,				// 5
+		shadows				// 6
+	]
 
 	// Person 1
-	const body = new THREE.Geometry()
+	let body = new THREE.Geometry()
 	// Arms
 	const rightArm = new THREE.BoxGeometry(1, 0.4, 0.5)
-	rightArm.translate(0.85, 0.6, 0)
+	rightArm.translate(3.55, 1.8, 6.5)
 	rightArm.vertices[0].y -= 0.75
 	rightArm.vertices[1].y -= 0.75
 	rightArm.vertices[2].y -= 0.5
@@ -23,9 +28,16 @@ function initWorkers()	{
 	rightArm.vertices[1].z += 0.15
 	rightArm.vertices[2].z -= 0.15
 	rightArm.vertices[3].z += 0.15
+	rightArm.rotateY(-1)
 	body.merge(rightArm)
-	const leftArm = new THREE.BoxGeometry(1, 0.4, 0.5)
-	leftArm.translate(-0.85, 0.6, 0)
+	rightArm.translate(2.9, 0, -0.2)
+	rightArm.rotateY(1.8)
+	body.merge(rightArm)
+	rightArm.translate(1.4, 0, 0.1)
+	rightArm.rotateY(-1.4)
+	body.merge(rightArm)
+	let leftArm = new THREE.BoxGeometry(1, 0.4, 0.5)
+	leftArm.translate(1.85, 1.8, 6.5)
 	leftArm.vertices[5].y += 0.3
 	leftArm.vertices[4].y += 0.3
 	leftArm.vertices[7].y += 0.55
@@ -38,20 +50,37 @@ function initWorkers()	{
 	leftArm.vertices[4].z += 1.05
 	leftArm.vertices[7].z += 0.9
 	leftArm.vertices[6].z += 1.05
+	leftArm.rotateY(-1)
+	body.merge(leftArm)
+	leftArm.translate(2.9, 0, -0.2)
+	leftArm.rotateY(1.8)
+	body.merge(leftArm)
+	leftArm.translate(1.4, 0, 0.1)
+	leftArm.rotateY(-1.4)
 	body.merge(leftArm)
 	// Head
 	const head = new THREE.SphereGeometry(0.35, 32, 32)
-	head.translate(0, 1.3, 0)
+	head.translate(2.7, 2.5, 6.5)
+	head.rotateY(-1)
 	body.merge(head)
-	// Mesh
-	const person = new THREE.Mesh(body, skinTone2)
-	person.castShadow = true
-	person.geometry.scale(0.5, 0.5, 0.5)
-	const shadowBody = body.clone(true)
-	shadowPerson1.merge(shadowBody)
-	worker.add(person)
+	head.translate(2.9, 0, -0.2)
+	head.rotateY(1.8)
+	body.merge(head)
+	head.translate(1.4, 0, 0.1)
+	head.rotateY(-1.4)
+	body.merge(head)
+
+	body.scale(0.5, 0.5, 0.5)
+
+	shadow.merge(body)
+	for (var j = 0; j < body.faces.length; j++) {
+		body.faces[j].materialIndex = 0;
+	}
+	meshes.mergeMesh(new THREE.Mesh(body))
+
 	// Clothes
 	// Shirt
+	const shirt = new THREE.Geometry()
 	const torso = new THREE.BoxGeometry(1, 1.4, 0.8)
 	torso.translate(0, 0.1, 0)
 	torso.vertices[0].z -= 0.15
@@ -62,12 +91,20 @@ function initWorkers()	{
 	torso.vertices[4].x += 0.15
 	torso.vertices[5].z -= 0.15
 	torso.vertices[5].x += 0.15
-	const shirt1 = new THREE.Mesh(torso, palegray)
-	shirt1.castShadow = true
-	shirt1.geometry.scale(0.5, 0.5, 0.5)
-	const shadowShirt = torso.clone(true)
-	shadowPerson1.merge(shadowShirt)
-	worker.add(shirt1)
+	head.translate(2.7, , -0.2)
+	body.merge(head)
+	head.translate(2.9, 0, -0.2)
+	head.rotateY(1.8)
+	body.merge(head)
+	head.translate(1.4, 0, 0.1)
+	head.rotateY(-1.4)
+	body.merge(head)
+
+	shadow.merge(torso)
+	for (var j = 0; j < torso.faces.length; j++) {
+		torso.faces[j].materialIndex = 1;
+	}
+	meshes.mergeMesh(new THREE.Mesh(torso))
 		// Pants
 	const leftLeg = new THREE.BoxGeometry(0.5, 0.8, 0.8)
 	leftLeg.translate(-0.25, -1, 0)
@@ -91,32 +128,31 @@ function initWorkers()	{
 	rightLeg.vertices[7].z -= 0.3
 	leftLeg.merge(rightLeg)
 
-	const pants1 = new THREE.Mesh(leftLeg, jean)
-	pants1.castShadow = true
-	pants1.geometry.scale(0.5, 0.5, 0.5)
-	const shadowPant = leftLeg.clone(true)
-	shadowPerson1.merge(shadowPant)
-	worker.add(pants1)
+	shadow.merge(leftLeg)
+	for (var j = 0; j < leftLeg.faces.length; j++) {
+		leftLeg.faces[j].materialIndex = 2;
+	}
+	meshes.mergeMesh(new THREE.Mesh(leftLeg))
 
 	// Person 2
-	const body2 = new THREE.Geometry()
-	const rightArm2 = rightArm.clone()
-	body2.merge(rightArm2)
-	const leftArm2 = new THREE.BoxGeometry(1, 0.4, 0.5)
-	leftArm2.translate(-0.85, 0.6, 0)
-	leftArm2.vertices[5].y -= 0.75
-	leftArm2.vertices[4].y -= 0.75
-	leftArm2.vertices[7].y -= 0.5
-	leftArm2.vertices[6].y -= 0.5
-	leftArm2.vertices[5].x += 0.5
-	leftArm2.vertices[4].x += 0.5
-	leftArm2.vertices[7].x += 0.5
-	leftArm2.vertices[6].x += 0.5
-	leftArm2.vertices[5].z -= 0.15
-	leftArm2.vertices[4].z += 0.15
-	leftArm2.vertices[7].z -= 0.15
-	leftArm2.vertices[6].z += 0.15
-	body2.merge(leftArm2)
+	body = new THREE.Geometry()
+	body.merge(rightArm)
+	body.merge(head)
+	leftArm = new THREE.BoxGeometry(1, 0.4, 0.5)
+	leftArm.translate(-0.85, 0.6, 0)
+	leftArm.vertices[5].y -= 0.75
+	leftArm.vertices[4].y -= 0.75
+	leftArm.vertices[7].y -= 0.5
+	leftArm.vertices[6].y -= 0.5
+	leftArm.vertices[5].x += 0.5
+	leftArm.vertices[4].x += 0.5
+	leftArm.vertices[7].x += 0.5
+	leftArm.vertices[6].x += 0.5
+	leftArm.vertices[5].z -= 0.15
+	leftArm.vertices[4].z += 0.15
+	leftArm.vertices[7].z -= 0.15
+	leftArm.vertices[6].z += 0.15
+	body.merge(leftArm)
 	// Head
 	const head2 = new THREE.SphereGeometry(0.35, 32, 32)
 	head2.translate(0, 1.3, 0)
@@ -328,16 +364,12 @@ function initWorkers()	{
 	const shadow1 = new THREE.Mesh(shadowPerson1, shadows)
 	worker.add(shadow1)
 
-	worker.position.set(2.7, 1.2, 6.5)
-	worker.rotation.y -= 1
 	scene.add(worker)
 
 	worker2.add(hat2)
 	worker2.add(vest2)
 	const shadow2 = new THREE.Mesh(shadowPerson2, shadows)
 	worker2.add(shadow2)
-	worker2.position.set(5.6, 1.2, 6.3)
-	worker2.rotation.y += 0.8
 	scene.add(worker2)
 
 	worker3.add(hat3)
@@ -345,7 +377,5 @@ function initWorkers()	{
 	worker3.add(sheet)
 	const shadow3 = new THREE.Mesh(shadowPerson3, shadows)
 	worker3.add(shadow3)
-	worker3.position.set(7, 1.2, 6.4)
-	worker3.rotation.y -= 0.6
 	scene.add(worker3)
 }

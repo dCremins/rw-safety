@@ -1,6 +1,5 @@
 function flagger(color) {
-	const meshes = new THREE.Geometry()
-	const officeShadows = new THREE.Geometry()
+	let meshes = new THREE.Geometry()
 	const materials = [
 		color,					// 0
 		gray,						// 1
@@ -293,9 +292,9 @@ function flagger(color) {
 	body.rotateY(-.5)
 	body.translate(.45, 0, .7)
 	body.scale(0.5, 0.5, 0.5)
-		let min = Math.ceil(3)
-  	let max = Math.floor(5)
-		let skinTone = Math.floor(Math.random() * (max - min)) + min
+		let min = 3
+  	let max = 5
+		let skinTone = ~~(Math.random() * (max - min)) + min
 
 	for (var j = 0; j < body.faces.length; j++) {
 		body.faces[j].materialIndex = skinTone
@@ -340,6 +339,7 @@ function flagger(color) {
 
 
 
+	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 	let combinedMesh = new THREE.Mesh(meshes, materials)
 	combinedMesh.castShadow = true
 	combinedMesh.position.set(-1, 1.2, -1)

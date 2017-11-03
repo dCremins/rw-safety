@@ -1,6 +1,5 @@
 function initBackHoe() {
-	const meshes = new THREE.Geometry()
-	const officeShadows = new THREE.Geometry()
+	let meshes = new THREE.Geometry()
 	const materials = [
 		truckMaterial,			// 0
 		windowColor,				// 1
@@ -69,8 +68,7 @@ function initBackHoe() {
 	armRight.translate(0, 0, -1.5)
 	coreGeometry.merge(armRight)
 	// Assemble Orange Base
-	const shadowCoreGeometry = coreGeometry.clone(true)
-	shadowHoe.merge(shadowCoreGeometry)
+	shadowHoe.merge(coreGeometry)
 
 	for (var j = 0; j < coreGeometry.faces.length; j++) {
 		coreGeometry.faces[j].materialIndex = 0;
@@ -150,8 +148,7 @@ function initBackHoe() {
 	const frontBarGeometry = new THREE.BoxGeometry(0.1, 0.1, 1)
 	frontBarGeometry.translate(2.3, 0.55, -0.5)
 	cabinGeometry.merge(frontBarGeometry)
-	const shadowCabin = cabinGeometry.clone(true)
-	shadowHoe.merge(shadowCabin)
+	shadowHoe.merge(cabinGeometry)
 
 	for (var j = 0; j < cabinGeometry.faces.length; j++) {
 		cabinGeometry.faces[j].materialIndex = 2;
@@ -298,8 +295,7 @@ function initBackHoe() {
 	truckRubber.merge(Scoop)
 	Scoop.translate(0, 0, -1.8)
 	truckRubber.merge(Scoop)
-	const shadowRubber = truckRubber.clone(true)
-	shadowHoe.merge(shadowRubber)
+	shadowHoe.merge(truckRubber)
 
 	for (var j = 0; j < truckRubber.faces.length; j++) {
 		truckRubber.faces[j].materialIndex = 2;
@@ -326,8 +322,7 @@ function initBackHoe() {
 	truckHub.merge(flatHub)
 	flatHub.translate(0, 0, 1.3)
 	truckHub.merge(flatHub)
-	const shadowHub = truckHub.clone(true)
-	shadowHoe.merge(shadowHub)
+	shadowHoe.merge(truckHub)
 
 	for (var j = 0; j < truckHub.faces.length; j++) {
 		truckHub.faces[j].materialIndex = 2;
@@ -340,6 +335,7 @@ function initBackHoe() {
 	}
 	meshes.mergeMesh(new THREE.Mesh(shadowHoe))
 
+	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 	let combinedMesh = new THREE.Mesh(meshes, materials)
 	combinedMesh.castShadow = true
 	combinedMesh.position.set(2.5, 1.4, 2.8)

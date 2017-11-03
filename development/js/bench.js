@@ -1,6 +1,5 @@
 function initBench() {
-	const meshes = new THREE.Geometry()
-	const officeShadows = new THREE.Geometry()
+	let meshes = new THREE.Geometry()
 	const materials = [
 		orange,			// 0
 		gray,				// 1
@@ -231,6 +230,7 @@ function initBench() {
 
 	// Add to scene
 
+	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 	let combinedMesh = new THREE.Mesh(meshes, materials)
 	combinedMesh.castShadow = true
 	combinedMesh.position.set(0, 0.95, -7)

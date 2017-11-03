@@ -1,23 +1,29 @@
 function test(group, color) {
-	// Remove old render if it exists
-	if (scene.getObjectByName(group)) {
-		scene.remove(scene.getObjectByName(group))
-	}
+	let meshes = new THREE.Geometry()
+	let shadow = new THREE.Geometry()
+	const materials = [
+		color,		// 0
+		white,		// 1
+		shadows		// 2
+	]
+	const cone = coneGeometry.clone(true)
+	const stripe = stripeGeometry.clone(true)
+	const coneGroup = new THREE.Geometry()
+	const stripeGroup = new THREE.Geometry()
+	let initialX
 
+	// Remove old render if it exists
+	if (scene.getObjectByName(group+'-cones')) {
+		scene.remove(scene.getObjectByName(group+'-cones'))
+		//scene.getObjectByName(group+'-cones').geometry.dispose()
+	}
+	if (scene.getObjectByName(group+'-shadows')) {
+		scene.remove(scene.getObjectByName(group+'-shadows'))
+		//scene.getObjectByName(group+'-shadows').geometry.dispose()
+	}
 	if (scene.getObjectByName('signGroup-' + group)) {
 		scene.remove(scene.getObjectByName('signGroup-' + group))
 	}
-	const coneCore = new THREE.Mesh(coneGeometry, color)
-	const shadowCone = new THREE.Mesh(coneGeometry, shadows)
-	shadowCone.scale.set(1.05, 1.05, 1.05)
-	coneCore.castShadow = true
-	const cone = new THREE.Group()
-	const newStripe = stripe.clone()
-	cone.add(coneCore)
-	cone.add(newStripe)
-	let initialX
-	const coneGroup = new THREE.Group()
-	const shadowGroup = new THREE.Group()
 
 /* Buffer */
 
@@ -44,22 +50,21 @@ function test(group, color) {
 			break
 	}
 	const buffer = Number(document.getElementById('buffer-' + group).value)
-	cone.position.set(initialX, 0.75, 0.5)
-	coneGroup.add(cone)
-	shadowCone.position.set(initialX, 0.75, 0.5)
-	shadowGroup.add(shadowCone)
+	cone.translate(initialX, 0.75, 0.5)
+	coneGroup.merge(cone)
+	stripe.translate(initialX, 0.75, 0.5)
+	stripeGroup.merge(stripe)
+
 	let x = initialX
 	let cones = 1 + (buffer / 100)
 	let spacing = (buffer / 50) / cones
 
 	while (Math.abs(x - spacing) <= (Math.abs((buffer / 50)) - initialX) && Math.abs(x) <= 23) {
-		const newCone = cone.clone()
-		const newShadowCone = shadowCone.clone()
-		newShadowCone.position.set(x, 0.75, 0.5)
-		shadowGroup.add(newShadowCone)
+		cone.translate(-spacing, 0, 0)
+		coneGroup.merge(cone)
+		stripe.translate(-spacing, 0, 0)
+		stripeGroup.merge(stripe)
 		x -= spacing
-		newCone.position.set(x, 0.75, 0.5)
-		coneGroup.add(newCone)
 	}
 
 /* Transition Taper */
@@ -69,14 +74,12 @@ function test(group, color) {
 	spacing = (upstream / 50) / cones
 	let y = (3 / cones) + 0.5
 	for (let i = 1; i <= cones; i++) {
-		const newCone = cone.clone()
+		cone.translate(-spacing, 0, (3 / cones))
+		coneGroup.merge(cone)
+		stripe.translate(-spacing, 0, (3 / cones))
+		stripeGroup.merge(stripe)
 		x -= spacing
-		newCone.position.set(x, 0.75, y)
-		const newShadowCone = shadowCone.clone()
-		newShadowCone.position.set(x, 0.75, y)
-		shadowGroup.add(newShadowCone)
 		y += 3 / cones
-		coneGroup.add(newCone)
 	}
 
 /* Sign Spacing */
@@ -86,49 +89,70 @@ function test(group, color) {
 
 	switch (group) {
 		case 1:
-			initialX = 10
+			initialX = 9
 			break
 		case 2:
-			initialX = 10.5
+			initialX = 9.5
 			break
 		case 3:
-			initialX = 11
+			initialX = 10
 			break
 		case 4:
-			initialX = 11.5
+			initialX = 10.5
 			break
 		case 5:
-			initialX = 12
+			initialX = 11
 			break
 		case 6:
-			initialX = 12.5
+			initialX = 11.5
 			break
 		default:
 			break
 	}
 	const downstream = Number(document.getElementById('downstream-' + group).value)
+	cone.translate(Math.abs(x)+initialX, 0, -Math.abs(y)+.5)
+	stripe.translate(Math.abs(x)+initialX, 0, -Math.abs(y)+.5)
 	x = initialX
 	cones = 2 + (downstream / 100)
 	spacing = (downstream / 50) / cones
 	y = 0.5
 	while (Math.abs(x) <= ((downstream / 50) + initialX) && Math.abs(x) <= 21.5) {
-		const newCone = cone.clone()
-		newCone.position.set(x, 0.75, y)
-		const newShadowCone = shadowCone.clone()
-		newShadowCone.position.set(x, 0.75, y)
-		shadowGroup.add(newShadowCone)
+		cone.translate(spacing, 0, (3 / cones))
+		coneGroup.merge(cone)
+		stripe.translate(spacing, 0, (3 / cones))
+		stripeGroup.merge(stripe)
 		y += 3 / cones
 		x += spacing
-		coneGroup.add(newCone)
 	}
 
 /* Give Group A Name and Add To Scene */
-	coneGroup.name = group
-	shadowGroup.name = group
-	scene.add(coneGroup)
-	scene.add(shadowGroup)
+
+	for (var j = 0; j < coneGroup.faces.length; j++) {
+		coneGroup.faces[j].materialIndex = 0;
+	}
+	meshes.mergeMesh(new THREE.Mesh(coneGroup))
+
+	for (var j = 0; j < stripeGroup.faces.length; j++) {
+		stripeGroup.faces[j].materialIndex = 1;
+	}
+	meshes.mergeMesh(new THREE.Mesh(stripeGroup))
+
+	shadow.merge(coneGroup)
+
+	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
+	let combinedMesh = new THREE.Mesh(meshes, materials)
+	combinedMesh.castShadow = true
+	combinedMesh.name = (group+'-cones')
+	scene.add(combinedMesh)
+
+	shadow = new THREE.BufferGeometry().fromGeometry(shadow)
+	let combinedShadows = new THREE.Mesh(shadow, shadows)
+	combinedShadows.receiveShadow = true
+	combinedShadows.name = (group+'-shadows')
+	scene.add(combinedShadows)
 
 /* Close Sidebar */
 	slide('group-' + group)
 	flagger(color)
+	animate()
 }

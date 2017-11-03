@@ -1,7 +1,17 @@
 function initShop()	{
-	const shop = new THREE.Group()
+	let meshes = new THREE.Geometry()
+	let shopShadow = new THREE.Geometry()
+	const materials = [
+		offwhite,				// 0
+		windowColor,		// 1
+		stone,					// 2
+		red,						// 3
+		blue,						// 4
+		purple,					// 5
+		orange					// 6
+	]
+
 	const shopBase = new THREE.Geometry()
-	const shopShadowGeometry = new THREE.Geometry()
 
 // Foundation
 	const bottom = new THREE.BoxGeometry(10, 1, 5)
@@ -12,17 +22,21 @@ function initShop()	{
 	const topStair = new THREE.BoxGeometry(2, 0.5, 1)
 	topStair.translate(0, -0.25, 3)
 	shopBase.merge(topStair)
-	const shopBaseShadow = shopBase.clone()
-	shopShadowGeometry.merge(shopBaseShadow)
-	let building = new THREE.Mesh(shopBase, foundation)
-	building.castShadow = true
-	shop.add(building)
+
+	for (var j = 0; j < shopBase.faces.length; j++) {
+		shopBase.faces[j].materialIndex = 0;
+	}
+	meshes.mergeMesh(new THREE.Mesh(shopBase))
+	shopShadow.mergeMesh(new THREE.Mesh(shopBase))
 
 // Building
 	const glass = new THREE.BoxGeometry(9.75, 4.9, 0.125)
 	glass.translate(0, 3, 2.4)
-	const windows = new THREE.Mesh(glass, windowColor)
-	shop.add(windows)
+
+	for (var j = 0; j < glass.faces.length; j++) {
+		glass.faces[j].materialIndex = 1;
+	}
+	meshes.mergeMesh(new THREE.Mesh(glass))
 
 	const shopCore = new THREE.Geometry()
 	const bottomFront = new THREE.BoxGeometry(4, 1, 0.75)
@@ -49,176 +63,162 @@ function initShop()	{
 	const top = new THREE.BoxGeometry(8, 1, 3.25)
 	top.translate(0, 5.5, 0.125)
 	shopCore.merge(top)
-	const coreShopShadow = shopCore.clone()
-	shopShadowGeometry.merge(coreShopShadow)
-	building = new THREE.Mesh(shopCore, stone)
-	building.castShadow = true
-	shop.add(building)
-
-// Insides
-	const insideShadowGeometry = new THREE.Geometry()
-
+	// Insides
 	const counter = new THREE.BoxGeometry(3, 1.5, 1)
 	counter.translate(0, 1.25, 0)
-	const coreCountersShadow = counter.clone()
-	insideShadowGeometry.merge(coreCountersShadow)
-	const Counters = new THREE.Mesh(counter, stone)
-	shop.add(Counters)
-
+	shopCore.merge(counter)
 	const shelf = new THREE.BoxGeometry(0.5, 0.1, 3)
 	shelf.translate(3.75, 2, 0)
-	const shelf2 = new THREE.BoxGeometry(0.5, 0.1, 3)
-	shelf2.translate(3.75, 3, 0)
-	shelf.merge(shelf2)
-	shelf2.translate(0, 1, 0)
-	shelf.merge(shelf2)
-	shelf2.translate(-7.5, 0, 0)
-	shelf.merge(shelf2)
-	shelf2.translate(0, -1, 0)
-	shelf.merge(shelf2)
-	shelf2.translate(0, -1, 0)
-	shelf.merge(shelf2)
-	const coreShelvesShadow = shelf.clone()
-	insideShadowGeometry.merge(coreShelvesShadow)
-	const shelves = new THREE.Mesh(shelf, stone)
-	shop.add(shelves)
+	shopCore.merge(shelf)
+	shelf.translate(0, 1, 0)
+	shopCore.merge(shelf)
+	shelf.translate(0, 1, 0)
+	shopCore.merge(shelf)
+	shelf.translate(-7.5, 0, 0)
+	shopCore.merge(shelf)
+	shelf.translate(0, -1, 0)
+	shopCore.merge(shelf)
+	shelf.translate(0, -1, 0)
+	shopCore.merge(shelf)
 
-	const book1 = new THREE.BoxGeometry(0.7, 0.75, 0.2)
-	book1.translate(3.75, 3.45, 0)
-	const book2 = new THREE.BoxGeometry(0.7, 0.75, 0.2)
-	book2.translate(3.75, 3.45, 1)
-	book1.merge(book2)
-	book2.translate(0, 1, -1.5)
-	book1.merge(book2)
-	book2.translate(0, -2, -0.5)
-	book1.merge(book2)
-	book2.translate(0, 0, 0.75)
-	book1.merge(book2)
-	book2.translate(0, 0, 1)
-	book1.merge(book2)
-	book2.translate(-7.5, 0, 0)
-	book1.merge(book2)
-	book2.translate(0, 0, -1.5)
-	book1.merge(book2)
-	book2.translate(0, 1, 0.5)
-	book1.merge(book2)
-	book2.translate(0, 0, 0.75)
-	book1.merge(book2)
-	book2.translate(0, 1, 0.25)
-	book1.merge(book2)
-	book2.translate(0, 0, -0.75)
-	book1.merge(book2)
-	book2.translate(0, 0, -0.5)
-	book1.merge(book2)
-	const book7 = new THREE.BoxGeometry(0.7, 0.75, 0.2)
-	book7.translate(-3.5, 1.87, 2.25)
-	book1.merge(book7)
-	const coreRedShadow = book1.clone()
-	insideShadowGeometry.merge(coreRedShadow)
-	const redBooks = new THREE.Mesh(book1, red)
-	redBooks.castShadow = true
-	shop.add(redBooks)
+	for (var j = 0; j < shopCore.faces.length; j++) {
+		shopCore.faces[j].materialIndex = 2;
+	}
+	meshes.mergeMesh(new THREE.Mesh(shopCore))
 
-	const books2 = new THREE.Geometry()
-	const book3 = new THREE.BoxGeometry(0.7, 0.75, 0.2)
-	book3.translate(3.75, 3.45, 1.2)
-	books2.merge(book3)
-	book3.translate(0, 1, -1.5)
-	books2.merge(book3)
-	book3.translate(0, -2, -0.5)
-	books2.merge(book3)
-	book3.translate(0, 0, 0.75)
-	books2.merge(book3)
-	book3.translate(0, 0, 1)
-	books2.merge(book3)
-	book3.translate(-7.5, 0, 0)
-	books2.merge(book3)
-	book3.translate(0, 0, -1.5)
-	books2.merge(book3)
-	book3.translate(0, 1, 0.5)
-	books2.merge(book3)
-	book3.translate(0, 0, 0.75)
-	books2.merge(book3)
-	book3.translate(0, 1, 0.25)
-	books2.merge(book3)
-	book3.translate(0, 0, -0.75)
-	books2.merge(book3)
-	book3.translate(0, 0, -0.5)
-	books2.merge(book3)
+	// Red
+	let books = new THREE.BoxGeometry(0.7, 0.75, 0.2)
+	books.translate(3.75, 3.45, 0)
+	let book = new THREE.BoxGeometry(0.7, 0.75, 0.2)
+	book.translate(3.75, 3.45, 1)
+	books.merge(book)
+	book.translate(0, 1, -1.5)
+	books.merge(book)
+	book.translate(0, -2, -0.5)
+	books.merge(book)
+	book.translate(0, 0, 0.75)
+	books.merge(book)
+	book.translate(0, 0, 1)
+	books.merge(book)
+	book.translate(-7.5, 0, 0)
+	books.merge(book)
+	book.translate(0, 0, -1.5)
+	books.merge(book)
+	book.translate(0, 1, 0.5)
+	books.merge(book)
+	book.translate(0, 0, 0.75)
+	books.merge(book)
+	book.translate(0, 1, 0.25)
+	books.merge(book)
+	book.translate(0, 0, -0.75)
+	books.merge(book)
+	book.translate(0, 0, -0.5)
+	books.merge(book)
+
+	for (var j = 0; j < books.faces.length; j++) {
+		books.faces[j].materialIndex = 3;
+	}
+	meshes.mergeMesh(new THREE.Mesh(books))
+
+		// Blue
+	books = new THREE.Geometry()
+	book = new THREE.BoxGeometry(0.7, 0.75, 0.2)
+	book.translate(3.75, 3.45, 1.2)
+	book.translate(0, 1, -1.5)
+	books.merge(book)
+	book.translate(0, -2, -0.5)
+	books.merge(book)
+	book.translate(0, 0, 0.75)
+	books.merge(book)
+	book.translate(0, 0, 1)
+	books.merge(book)
+	book.translate(-7.5, 0, 0)
+	books.merge(book)
+	book.translate(0, 0, -1.5)
+	books.merge(book)
+	book.translate(0, 1, 0.5)
+	books.merge(book)
+	book.translate(0, 0, 0.75)
+	books.merge(book)
+	book.translate(0, 1, 0.25)
+	books.merge(book)
+	book.translate(0, 0, -0.75)
+	books.merge(book)
+	book.translate(0, 0, -0.5)
+	books.merge(book)
 	const book8 = new THREE.BoxGeometry(0.7, 0.75, 0.2)
 	book8.translate(-2.5, 1.87, 2.25)
-	books2.merge(book8)
-	const coreBlueShadow = books2.clone()
-	insideShadowGeometry.merge(coreBlueShadow)
-	const blueBooks = new THREE.Mesh(books2, blue)
-	blueBooks.castShadow = true
-	shop.add(blueBooks)
+	books.merge(book8)
 
-	const books3 = new THREE.Geometry()
-	const book4 = new THREE.BoxGeometry(0.7, 0.75, 0.2)
-	book4.translate(3.75, 3.45, 1.4)
-	books3.merge(book4)
-	book4.translate(0, 1, -1.5)
-	books3.merge(book4)
-	book4.translate(0, -2, -0.5)
-	books3.merge(book4)
-	book4.translate(0, 0, 0.75)
-	books3.merge(book4)
-	book4.translate(0, 0, 1)
-	books3.merge(book4)
-	book4.translate(-7.5, 0, 0)
-	books3.merge(book4)
-	book4.translate(0, 0, -1.5)
-	books3.merge(book4)
-	book4.translate(0, 1, 0.5)
-	books3.merge(book4)
-	book4.translate(0, 0, 0.75)
-	books3.merge(book4)
-	book4.translate(0, 1, 0.25)
-	books3.merge(book4)
-	book4.translate(0, 0, -0.75)
-	books3.merge(book4)
-	book4.translate(0, 0, -1.5)
-	books3.merge(book4)
-	book4.translate(7.5, 0, 2)
-	books3.merge(book4)
-	book4.translate(0, -1, -1.75)
-	books3.merge(book4)
-	const corePurpleShadow = books3.clone()
-	insideShadowGeometry.merge(corePurpleShadow)
-	const purpleBooks = new THREE.Mesh(books3, purple)
-	purpleBooks.castShadow = true
-	shop.add(purpleBooks)
+	for (var j = 0; j < books.faces.length; j++) {
+		books.faces[j].materialIndex = 4;
+	}
+	meshes.mergeMesh(new THREE.Mesh(books))
 
-	const books4 = new THREE.Geometry()
-	const book5 = new THREE.BoxGeometry(0.7, 0.75, 0.2)
-	book5.translate(3.75, 3.45, 0.6)
-	books4.merge(book5)
-	book5.translate(0, 0, -1)
-	books4.merge(book5)
-	book5.translate(0, 1, -0.75)
-	books4.merge(book5)
-	book5.translate(0, 0, 1.5)
-	books4.merge(book5)
-	book5.translate(0, 0, 0.75)
-	books4.merge(book5)
-	book5.translate(-7.5, -1, -1.75)
-	books4.merge(book5)
-	book5.translate(0, -1, -0.5)
-	books4.merge(book5)
-	book5.translate(0, 0, 1.5)
-	books4.merge(book5)
+		// Purple
+	books = new THREE.Geometry()
+	book = new THREE.BoxGeometry(0.7, 0.75, 0.2)
+	book.translate(3.75, 3.45, 1.4)
+	books.merge(book)
+	book.translate(0, 1, -1.5)
+	books.merge(book)
+	book.translate(0, -2, -0.5)
+	books.merge(book)
+	book.translate(0, 0, 0.75)
+	books.merge(book)
+	book.translate(0, 0, 1)
+	books.merge(book)
+	book.translate(-7.5, 0, 0)
+	books.merge(book)
+	book.translate(0, 0, -1.5)
+	books.merge(book)
+	book.translate(0, 1, 0.5)
+	books.merge(book)
+	book.translate(0, 0, 0.75)
+	books.merge(book)
+	book.translate(0, 1, 0.25)
+	books.merge(book)
+	book.translate(0, 0, -0.75)
+	books.merge(book)
+	book.translate(0, 0, -1.5)
+	books.merge(book)
+	book.translate(7.5, 0, 2)
+	books.merge(book)
+	book.translate(0, -1, -1.75)
+	books.merge(book)
+
+	for (var j = 0; j < books.faces.length; j++) {
+		books.faces[j].materialIndex = 5;
+	}
+	meshes.mergeMesh(new THREE.Mesh(books))
+
+		// Orange
+	books = new THREE.Geometry()
+	book = new THREE.BoxGeometry(0.7, 0.75, 0.2)
+	book.translate(3.75, 3.45, 0.6)
+	books.merge(book)
+	book.translate(0, 0, -1)
+	books.merge(book)
+	book.translate(0, 1, -0.75)
+	books.merge(book)
+	book.translate(0, 0, 1.5)
+	books.merge(book)
+	book.translate(0, 0, 0.75)
+	books.merge(book)
+	book.translate(-7.5, -1, -1.75)
+	books.merge(book)
+	book.translate(0, -1, -0.5)
+	books.merge(book)
+	book.translate(0, 0, 1.5)
+	books.merge(book)
 	const book6 = new THREE.BoxGeometry(0.7, 0.75, 0.2)
 	book6.translate(3.5, 1.87, 2.25)
-	books4.merge(book6)
-	const coreOrangeShadow = books4.clone()
-	insideShadowGeometry.merge(coreOrangeShadow)
-	const orangeBooks = new THREE.Mesh(books4, orange)
-	orangeBooks.castShadow = true
-	shop.add(orangeBooks)
-	const shopInsideShadow = new THREE.Mesh(insideShadowGeometry, shadows)
-	shopInsideShadow.receiveShadow = true
-	shop.add(shopInsideShadow)
+	books.merge(book6)
+
+	for (var j = 0; j < books.faces.length; j++) {
+		books.faces[j].materialIndex = 6;
+	}
+	meshes.mergeMesh(new THREE.Mesh(books))
 
 // Awning
 	// White Stripes
@@ -236,11 +236,14 @@ function initShop()	{
 	awningA.merge(aA1)
 	aA1.translate(2.2, 0, 0)
 	awningA.merge(aA1)
-	const aShadow = awningA.clone()
-	shopShadowGeometry.merge(aShadow)
-	const As = new THREE.Mesh(awningA, offwhite)
-	As.castShadow = true
-	// Red Stripes
+
+	for (var j = 0; j < awningA.faces.length; j++) {
+		awningA.faces[j].materialIndex = 0;
+	}
+	meshes.mergeMesh(new THREE.Mesh(awningA))
+	shopShadow.mergeMesh(new THREE.Mesh(awningA))
+
+	// Colored Stripes
 	const awningB = new THREE.Geometry()
 	const aB1 = new THREE.BoxGeometry(1.1, 1.25, 2)
 	aB1.translate(-3.3, 5.25, 3.5)
@@ -253,17 +256,24 @@ function initShop()	{
 	awningB.merge(aB1)
 	aB1.translate(2.2, 0, 0)
 	awningB.merge(aB1)
-	const bShadow = awningB.clone()
-	shopShadowGeometry.merge(bShadow)
-	const Bs = new THREE.Mesh(awningB, blue)
-	Bs.castShadow = true
-	shop.add(As)
-	shop.add(Bs)
-	const shopShadow = new THREE.Mesh(shopShadowGeometry, shadows)
-	shopShadow.receiveShadow = true
-	shop.add(shopShadow)
 
-// Add To Scene
-	shop.position.set(8, 1, -8) // 8, -9
-	scene.add(shop)
+	for (var j = 0; j < awningB.faces.length; j++) {
+		awningB.faces[j].materialIndex = 4;
+	}
+	meshes.mergeMesh(new THREE.Mesh(awningB))
+	shopShadow.mergeMesh(new THREE.Mesh(awningB))
+
+// Create the combined mesh
+meshes = new THREE.BufferGeometry().fromGeometry(meshes)
+let combinedMesh = new THREE.Mesh(meshes, materials)
+combinedMesh.position.set(8, 1, -8)
+combinedMesh.castShadow = true
+
+shopShadow = new THREE.BufferGeometry().fromGeometry(shopShadow)
+let combinedShadow = new THREE.Mesh(shopShadow, shadows)
+combinedShadow.position.set(8, 1, -8)
+combinedShadow.receiveShadow = true
+
+scene.add(combinedMesh)
+scene.add(combinedShadow)
 }

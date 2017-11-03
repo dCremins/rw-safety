@@ -1,23 +1,55 @@
 function initRoad() {
-	const meshes = new THREE.Geometry()
-	const officeShadows = new THREE.Geometry()
+	let meshes = new THREE.Geometry()
+	let shadow = new THREE.Geometry()
 	const materials = [
-		grass,			// 0
-		road,				// 1
-		divider,		// 2
-		lines,			// 3
-		gray,				// 4
-		white,			// 5
-		shadows			// 6
+		green,			// 0
+		palegray,		// 1
+		yellow,			// 2
+		white,			// 3
+		gray				// 4
 	]
 
+	const greenery = new THREE.Geometry()
 	const topGeometry = new THREE.BoxGeometry(45, 1, 10)
 	topGeometry.translate(0, 0, -9)
+	greenery.merge(topGeometry)
+	const bottomGeometry = new THREE.BoxGeometry(45, 1, 7)
+	bottomGeometry.translate(0, 0, 7.5)
+	greenery.merge(bottomGeometry)
+	// Trees
+	const tallCone = new THREE.ConeGeometry(1.68, 4, 32)
+	tallCone.translate(-18, 4.35, -10.5)
+	greenery.merge(tallCone)
+	tallCone.translate(7, 0, 18.5)
+	greenery.merge(tallCone)
+	const tallSphere = new THREE.SphereGeometry(1.8, 60, 60)
+	tallSphere.translate(-18, 1.7, -10.5)
+	greenery.merge(tallSphere)
+	tallSphere.translate(7, 0, 18.5)
+	greenery.merge(tallSphere)
+	const smallCone = tallCone.clone()
+	smallCone.scale(0.5, 0.5, 0.5)
+	smallCone.translate(0, 0.2, -12)
+	greenery.merge(smallCone)
+	smallCone.translate(17.5, 0, 14)
+	greenery.merge(smallCone)
+	smallCone.translate(4.5, 0, -16.5)
+	greenery.merge(smallCone)
+	const smallSphere = tallSphere.clone()
+	smallSphere.scale(0.5, 0.5, 0.5)
+	smallSphere.translate(0, 0.2, -12)
+	greenery.merge(smallSphere)
+	smallSphere.translate(17.5, 0, 14)
+	greenery.merge(smallSphere)
+	smallSphere.translate(4.5, 0, -16.5)
+	greenery.merge(smallSphere)
 
-	for (var j = 0; j < topGeometry.faces.length; j++) {
-		topGeometry.faces[j].materialIndex = 0;
+	shadow.merge(greenery)
+
+	for (var j = 0; j < greenery.faces.length; j++) {
+		greenery.faces[j].materialIndex = 0;
 	}
-	meshes.mergeMesh(new THREE.Mesh(topGeometry))
+	meshes.mergeMesh(new THREE.Mesh(greenery))
 
 	const roadGeometry = new THREE.BoxGeometry(45, 1, 8)
 
@@ -48,19 +80,19 @@ function initRoad() {
 	}
 	meshes.mergeMesh(new THREE.Mesh(lineGeometry))
 
-	const bottomGeometry = new THREE.BoxGeometry(45, 1, 7)
-	bottomGeometry.translate(0, 0, 7.5)
+	//const bottomGeometry = new THREE.BoxGeometry(45, 1, 7)
+	//bottomGeometry.translate(0, 0, 7.5)
 
-	for (var j = 0; j < bottomGeometry.faces.length; j++) {
-		bottomGeometry.faces[j].materialIndex = 0;
-	}
-	meshes.mergeMesh(new THREE.Mesh(bottomGeometry))
+	//for (var j = 0; j < bottomGeometry.faces.length; j++) {
+	//	bottomGeometry.faces[j].materialIndex = 0;
+	//}
+	//meshes.mergeMesh(new THREE.Mesh(bottomGeometry))
 
 	const dividerGeometry = new THREE.Geometry()
 	const dividerLine = new THREE.BoxGeometry(1, 0.1, 0.2)
 	dividerLine.translate(-22, 0.5, 0)
 	dividerGeometry.merge(dividerLine)
-	for (let i = 22; i >= -22; i -= 2) {
+	for (let i = 22; i >= -21; i -= 2) {
 		dividerLine.translate(2, 0, 0)
 		dividerGeometry.merge(dividerLine)
 	}
@@ -98,11 +130,17 @@ function initRoad() {
 	meshes.mergeMesh(new THREE.Mesh(cone))
 
 	for (var j = 0; j < stripe.faces.length; j++) {
-		stripe.faces[j].materialIndex = 5;
+		stripe.faces[j].materialIndex = 3;
 	}
 	meshes.mergeMesh(new THREE.Mesh(stripe))
 
+	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 	let combinedMesh = new THREE.Mesh(meshes, materials)
 	combinedMesh.castShadow = true
 	scene.add(combinedMesh)
+
+	shadow = new THREE.BufferGeometry().fromGeometry(shadow)
+	let combinedShadow = new THREE.Mesh(shadow, shadows)
+	combinedShadow.receiveShadow = true
+	scene.add(combinedShadow)
 }
