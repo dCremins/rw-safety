@@ -1,5 +1,12 @@
 function initBackHoe() {
-	const backHoe = new THREE.Group()
+	let meshes = new THREE.Geometry()
+	const materials = [
+		truckMaterial,			// 0
+		windowColor,				// 1
+		gray,								// 2
+		shadows							// 3
+	]
+
 	const shadowHoe = new THREE.Geometry()
 	// Cabin
 	const coreGeometry = new THREE.Geometry()
@@ -61,77 +68,24 @@ function initBackHoe() {
 	armRight.translate(0, 0, -1.5)
 	coreGeometry.merge(armRight)
 	// Assemble Orange Base
-	const shadowCoreGeometry = coreGeometry.clone(true)
-	shadowHoe.merge(shadowCoreGeometry)
-	const core = new THREE.Mesh(coreGeometry, truckMaterial)
-	core.castShadow = true
-	backHoe.add(core)
+	shadowHoe.merge(coreGeometry)
+
+	for (var j = 0; j < coreGeometry.faces.length; j++) {
+		coreGeometry.faces[j].materialIndex = 0;
+	}
+	meshes.mergeMesh(new THREE.Mesh(coreGeometry))
 	// Windows
-	const windowGeometry = new THREE.Geometry()
-	// Front
-	windowGeometry.vertices.push(new THREE.Vector3(-0.5, 2.25, 0))			// 0
-	windowGeometry.vertices.push(new THREE.Vector3(1.25, 2.25, 0))			// 1
-	windowGeometry.vertices.push(new THREE.Vector3(2.25, 0.75, 0))	// 2
-	windowGeometry.vertices.push(new THREE.Vector3(2.25, 0.5, 0))		// 3
-	windowGeometry.vertices.push(new THREE.Vector3(1.25, 0.5, 0))			// 4
-	windowGeometry.vertices.push(new THREE.Vector3(1.25, 0.75, 0))		// 5
-	windowGeometry.vertices.push(new THREE.Vector3(-0.5, 0.75, 0))		// 6
-	// Back
-	windowGeometry.vertices.push(new THREE.Vector3(-0.5, 2.25, -1))		// 7
-	windowGeometry.vertices.push(new THREE.Vector3(1.25, 2.25, -1))		// 8
-	windowGeometry.vertices.push(new THREE.Vector3(2.25, 0.75, -1))	// 9
-	windowGeometry.vertices.push(new THREE.Vector3(2.25, 0.5, -1))	// 10
-	windowGeometry.vertices.push(new THREE.Vector3(1.25, 0.5, -1))		// 11
-	windowGeometry.vertices.push(new THREE.Vector3(1.25, 0.75, -1))	// 12
-	windowGeometry.vertices.push(new THREE.Vector3(-0.5, 0.75, -1))  // 13
-	// Faces - Front
-	windowGeometry.faces.push(new THREE.Face3(6, 1, 0))
-	windowGeometry.faces.push(new THREE.Face3(1, 6, 5))
-	windowGeometry.faces.push(new THREE.Face3(5, 2, 1))
-	windowGeometry.faces.push(new THREE.Face3(2, 5, 3))
-	windowGeometry.faces.push(new THREE.Face3(4, 3, 5))
-	// Faces - Front2
-	windowGeometry.faces.push(new THREE.Face3(6, 0, 1))
-	windowGeometry.faces.push(new THREE.Face3(1, 5, 6))
-	windowGeometry.faces.push(new THREE.Face3(5, 1, 2))
-	windowGeometry.faces.push(new THREE.Face3(2, 3, 5))
-	windowGeometry.faces.push(new THREE.Face3(4, 5, 3))
-	// Faces - Back
-	windowGeometry.faces.push(new THREE.Face3(13, 8, 7))
-	windowGeometry.faces.push(new THREE.Face3(8, 13, 12))
-	windowGeometry.faces.push(new THREE.Face3(12, 9, 8))
-	windowGeometry.faces.push(new THREE.Face3(9, 12, 10))
-	windowGeometry.faces.push(new THREE.Face3(11, 10, 12))
-	// Faces - Back2
-	windowGeometry.faces.push(new THREE.Face3(13, 7, 8))
-	windowGeometry.faces.push(new THREE.Face3(8, 12, 13))
-	windowGeometry.faces.push(new THREE.Face3(12, 8, 9))
-	windowGeometry.faces.push(new THREE.Face3(9, 10, 12))
-	windowGeometry.faces.push(new THREE.Face3(11, 12, 10))
-	// Faces - Top
-	windowGeometry.faces.push(new THREE.Face3(0, 8, 7))
-	windowGeometry.faces.push(new THREE.Face3(8, 0, 1))
-	// Faces - Top Side
-	windowGeometry.faces.push(new THREE.Face3(8, 1, 2))
-	windowGeometry.faces.push(new THREE.Face3(8, 2, 9))
-	// Faces - Right Side
-	windowGeometry.faces.push(new THREE.Face3(2, 3, 9))
-	windowGeometry.faces.push(new THREE.Face3(9, 3, 10))
-	// Faces - Right Bottom
-	windowGeometry.faces.push(new THREE.Face3(11, 10, 4))
-	windowGeometry.faces.push(new THREE.Face3(10, 3, 4))
-	// Faces - Middle Side
-	windowGeometry.faces.push(new THREE.Face3(5, 12, 4))
-	windowGeometry.faces.push(new THREE.Face3(12, 11, 4))
-	// Faces - Bottom
-	windowGeometry.faces.push(new THREE.Face3(13, 12, 6))
-	windowGeometry.faces.push(new THREE.Face3(12, 5, 6))
-	// Faces - Left Side
-	windowGeometry.faces.push(new THREE.Face3(0, 7, 6))
-	windowGeometry.faces.push(new THREE.Face3(7, 13, 6))
-	windowGeometry.computeFaceNormals()
-	const truckWindows = new THREE.Mesh(windowGeometry, windowColor)
-	backHoe.add(truckWindows)
+	const windowGeometry = new THREE.BoxGeometry(2.75, 1.75, 1.125)
+	windowGeometry.translate(.94, 1.375, -.5)
+	windowGeometry.vertices[0].x -= 1.1
+	windowGeometry.vertices[1].x -= 1.1
+	windowGeometry.vertices[3].y += .15
+	windowGeometry.vertices[2].y += .15
+
+	for (var j = 0; j < windowGeometry.faces.length; j++) {
+		windowGeometry.faces[j].materialIndex = 1;
+	}
+	meshes.mergeMesh(new THREE.Mesh(windowGeometry))
 	// Cabin Frame
 	const cabinGeometry = new THREE.Geometry()
 	let verticalBarGeometry = new THREE.BoxGeometry(0.1, 1.5, 0.1)
@@ -194,11 +148,12 @@ function initBackHoe() {
 	const frontBarGeometry = new THREE.BoxGeometry(0.1, 0.1, 1)
 	frontBarGeometry.translate(2.3, 0.55, -0.5)
 	cabinGeometry.merge(frontBarGeometry)
-	const shadowCabin = cabinGeometry.clone(true)
-	shadowHoe.merge(shadowCabin)
-	const cabin = new THREE.Mesh(cabinGeometry, gray)
-	cabin.castShadow = true
-	backHoe.add(cabin)
+	shadowHoe.merge(cabinGeometry)
+
+	for (var j = 0; j < cabinGeometry.faces.length; j++) {
+		cabinGeometry.faces[j].materialIndex = 2;
+	}
+	meshes.mergeMesh(new THREE.Mesh(cabinGeometry))
   // Inside
 	const truckSeat = new THREE.Geometry()
 	const truckSeatButt = new THREE.BoxGeometry(0.4, 0.1, 0.4)
@@ -219,9 +174,11 @@ function initBackHoe() {
 	truckInnerConsole.vertices[0].x -= 0.4
 	truckInnerConsole.vertices[1].x -= 0.4
 	truckSeat.merge(truckInnerConsole)
-	const truckSeatPiece = new THREE.Mesh(truckSeat, gray)
-	truckSeatPiece.castShadow = true
-	backHoe.add(truckSeatPiece)
+
+	for (var j = 0; j < truckSeat.faces.length; j++) {
+		truckSeat.faces[j].materialIndex = 2;
+	}
+	meshes.mergeMesh(new THREE.Mesh(truckSeat))
 	// Wheels
 	const shape = new THREE.Shape()
 	shape.moveTo(0, 0.75)
@@ -338,11 +295,13 @@ function initBackHoe() {
 	truckRubber.merge(Scoop)
 	Scoop.translate(0, 0, -1.8)
 	truckRubber.merge(Scoop)
-	const shadowRubber = truckRubber.clone(true)
-	shadowHoe.merge(shadowRubber)
-	const mesh = new THREE.Mesh(truckRubber, gray)
-	mesh.castShadow = true
-	truckWheel.add(mesh)
+	shadowHoe.merge(truckRubber)
+
+	for (var j = 0; j < truckRubber.faces.length; j++) {
+		truckRubber.faces[j].materialIndex = 2;
+	}
+	meshes.mergeMesh(new THREE.Mesh(truckRubber))
+
 	const truckHub = new THREE.Geometry()
 	const innerHub = new THREE.TorusGeometry(0.34, 0.1, 4, 50, 6.3)
 	innerHub.translate(-0.25, -0.213, 0.415)
@@ -363,15 +322,22 @@ function initBackHoe() {
 	truckHub.merge(flatHub)
 	flatHub.translate(0, 0, 1.3)
 	truckHub.merge(flatHub)
-	const shadowHub = truckHub.clone(true)
-	shadowHoe.merge(shadowHub)
-	const backhoeHub = new THREE.Mesh(truckHub, truckMaterial)
-	backhoeHub.castShadow = true
-	truckWheel.add(backhoeHub)
-	backHoe.add(truckWheel)
+	shadowHoe.merge(truckHub)
+
+	for (var j = 0; j < truckHub.faces.length; j++) {
+		truckHub.faces[j].materialIndex = 2;
+	}
+	meshes.mergeMesh(new THREE.Mesh(truckHub))
 	// Add To scene
-	const backhoeShadow = new THREE.Mesh(shadowHoe, shadows)
-	backHoe.add(backhoeShadow)
-	backHoe.position.set(2.5, 1.4, 2.8)
-	scene.add(backHoe)
+
+	for (var j = 0; j < shadowHoe.faces.length; j++) {
+		shadowHoe.faces[j].materialIndex = 3;
+	}
+	meshes.mergeMesh(new THREE.Mesh(shadowHoe))
+
+	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
+	let combinedMesh = new THREE.Mesh(meshes, materials)
+	combinedMesh.castShadow = true
+	combinedMesh.position.set(2.5, 1.4, 2.8)
+	scene.add(combinedMesh)
 }

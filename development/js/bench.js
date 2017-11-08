@@ -1,5 +1,15 @@
 function initBench() {
-	const bench = new THREE.Group()
+	let meshes = new THREE.Geometry()
+	const materials = [
+		orange,			// 0
+		gray,				// 1
+		skinTone3,	// 2
+		jean,				// 3
+		red,				// 4
+		offwhite,		// 5
+		shadows			// 6
+	]
+
 	const benchGeometry = new THREE.Geometry()
 	const benchSeat = new THREE.BoxGeometry(2, 0.1, 1)
 	benchGeometry.merge(benchSeat)
@@ -7,9 +17,11 @@ function initBench() {
 	benchBack.translate(0, 0.8, -0.55)
 	benchGeometry.merge(benchBack)
 	benchGeometry.scale(0.8, 0.8, 0.8)
-	const benchCore = new THREE.Mesh(benchGeometry, orange)
-	benchCore.castShadow = true
-	bench.add(benchCore)
+
+	for (var j = 0; j < benchGeometry.faces.length; j++) {
+		benchGeometry.faces[j].materialIndex = 0;
+	}
+	meshes.mergeMesh(new THREE.Mesh(benchGeometry))
 	// Metal
 	const benchMetal = new THREE.Geometry()
 	let metalSide = new THREE.BoxGeometry(0.1, 1.8, 0.1)
@@ -37,16 +49,22 @@ function initBench() {
 	metalSide.translate(0, 0.9, 0)
 	benchMetal.merge(metalSide)
 	benchMetal.scale(0.8, 0.8, 0.8)
-	const metal = new THREE.Mesh(benchMetal, gray)
-	metal.castShadow = true
-	bench.add(metal)
+
+	for (var j = 0; j < benchMetal.faces.length; j++) {
+		benchMetal.faces[j].materialIndex = 1;
+	}
+	meshes.mergeMesh(new THREE.Mesh(benchMetal))
+
 	const benchShadow = new THREE.Geometry()
 	const coreBenchShadow = benchGeometry.clone()
 	benchShadow.merge(coreBenchShadow)
 	const metalBenchShadow = benchMetal.clone()
 	benchShadow.merge(metalBenchShadow)
-	const shadowBench = new THREE.Mesh(benchShadow, shadows)
-	bench.add(shadowBench)
+
+	for (var j = 0; j < benchShadow.faces.length; j++) {
+		benchShadow.faces[j].materialIndex = 6;
+	}
+	meshes.mergeMesh(new THREE.Mesh(benchShadow))
 
 	const body = new THREE.Geometry()
 	// Arms
@@ -82,8 +100,11 @@ function initBench() {
 	body.merge(head)
 	body.scale(0.5, 0.5, 0.5)
 	body.translate(0, 0.56, 0)
-	const person = new THREE.Mesh(body, skinTone3)
-	bench.add(person)
+
+	for (var j = 0; j < body.faces.length; j++) {
+		body.faces[j].materialIndex = 2;
+	}
+	meshes.mergeMesh(new THREE.Mesh(body))
 // Clothes
 // Shirt
 	const torso = new THREE.BoxGeometry(1, 1.4, 0.8)
@@ -120,8 +141,11 @@ function initBench() {
 	torso.merge(rightArm)
 	torso.scale(0.5, 0.5, 0.5)
 	torso.translate(0, 0.56, 0)
-	const Shirt = new THREE.Mesh(torso, gray)
-	bench.add(Shirt)
+
+	for (var j = 0; j < torso.faces.length; j++) {
+		torso.faces[j].materialIndex = 1;
+	}
+	meshes.mergeMesh(new THREE.Mesh(torso))
 // Pants
 	const pant = new THREE.BoxGeometry(0.5, 0.5, 0.8)
 	pant.translate(-0.25, -0.8, 0)
@@ -152,8 +176,11 @@ function initBench() {
 	pant.merge(leg)
 	pant.scale(0.5, 0.5, 0.5)
 	pant.translate(0, 0.56, 0)
-	const Pants = new THREE.Mesh(pant, blue)
-	bench.add(Pants)
+
+	for (var j = 0; j < pant.faces.length; j++) {
+		pant.faces[j].materialIndex = 3;
+	}
+	meshes.mergeMesh(new THREE.Mesh(pant))
 	// Book
 	const flap = new THREE.BoxGeometry(0.25, 0.3, 0.02)
 	flap.translate(-0.05, 0.75, 0.35)
@@ -162,8 +189,12 @@ function initBench() {
 	flap2.translate(0.05, 0.75, 0.35)
 	flap2.rotateY(0.2)
 	flap.merge(flap2)
-	let cover = new THREE.Mesh(flap, red)
-	bench.add(cover)
+
+	for (var j = 0; j < flap.faces.length; j++) {
+		flap.faces[j].materialIndex = 4;
+	}
+	meshes.mergeMesh(new THREE.Mesh(flap))
+
 	const pages = new THREE.BoxGeometry(0.25, 0.3, 0.05)
 	pages.translate(-0.05, 0.75, 0.32)
 	pages.rotateY(-0.2)
@@ -171,8 +202,11 @@ function initBench() {
 	pages2.translate(0.05, 0.75, 0.32)
 	pages2.rotateY(0.2)
 	pages.merge(pages2)
-	cover = new THREE.Mesh(pages, offwhite)
-	bench.add(cover)
+
+	for (var j = 0; j < pages.faces.length; j++) {
+		pages.faces[j].materialIndex = 5;
+	}
+	meshes.mergeMesh(new THREE.Mesh(pages))
 
 	// Shadows
 	const pedestrianShadows = new THREE.Geometry()
@@ -188,10 +222,17 @@ function initBench() {
 	pedestrianShadows.merge(newPants)
 	const newCover = flap.clone(true)
 	pedestrianShadows.merge(newCover)
-	const shadowPerson = new THREE.Mesh(pedestrianShadows, shadows)
-	bench.add(shadowPerson)
+
+	for (var j = 0; j < pedestrianShadows.faces.length; j++) {
+		pedestrianShadows.faces[j].materialIndex = 6;
+	}
+	meshes.mergeMesh(new THREE.Mesh(pedestrianShadows))
 
 	// Add to scene
-	bench.position.set(0, 0.95, -7)
-	scene.add(bench)
+
+	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
+	let combinedMesh = new THREE.Mesh(meshes, materials)
+	combinedMesh.castShadow = true
+	combinedMesh.position.set(0, 0.95, -7)
+	scene.add(combinedMesh)
 }

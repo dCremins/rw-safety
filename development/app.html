@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+<head>
+    <title>3D Test</title>
+		<link rel="preload" href="bundled.min.js" as="script" />
+    <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+<body>
+
+  <div class="side-menu" id="group-1">
+    <h1> Group 1 </h1>
+    <div class="inputs"> What is the Sign Spacing? <input id="sign-1" value="500"/> </div>
+    <div class="inputs">
+      <label class="signs">
+        <input class="sign" type="checkbox" value="worker" onclick="signArray('1', this)" /> Worker Icon
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="flagger" onclick="signArray('1', this)" /> Flagger Icon
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="fAhead" onclick="signArray('1', this)" /> "Flagger Ahead"
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="men" onclick="signArray('1', this)" /> "Men Working
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="stop" onclick="signArray('1', this)" /> "Prepare to Stop
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="lane" onclick="signArray('1', this)" /> "One Lane Road Ahead"
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="work" onclick="signArray('1', this)" /> "Road Work Ahead"
+      </label>
+    </div>
+    <div class="inputs"> How long is the Transition Taper? <input id="upstream-1" value="100"/> </div>
+    <div class="inputs"> How long is the Buffer? <input id="buffer-1" value="540"/> </div>
+    <div class="inputs"> How long is the Downstream Taper? <input id="downstream-1" value="100"/> </div>
+    <div class="inputs"> <button onclick="test(1, red)">Place Cones</button> </div>
+  </div>
+  <div class="side-menu" id="group-2">
+    <h1> Group 2 </h1>
+    <div class="inputs"> What is the Sign Spacing? <input id="sign-2" value="500"/> </div>
+    <div class="inputs">
+      <label class="signs">
+        <input class="sign" type="checkbox" value="worker" onclick="signArray('2', this)" /> Worker Icon
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="flagger" onclick="signArray('2', this)" /> Flagger Icon
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="fAhead" onclick="signArray('2', this)" /> "Flagger Ahead"
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="men" onclick="signArray('2', this)" /> "Men Working
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="stop" onclick="signArray('2', this)" /> "Prepare to Stop
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="lane" onclick="signArray('2', this)" /> "One Lane Road Ahead"
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="work" onclick="signArray('2', this)" /> "Road Work Ahead"
+      </label>
+    </div>
+    <div class="inputs"> How long is the Transition Taper? <input id="upstream-2" value="100"/> </div>
+    <div class="inputs"> How long is the Buffer? <input id="buffer-2" value="500"/> </div>
+    <div class="inputs"> How long is the Downstream Taper? <input id="downstream-2" value="100"/> </div>
+    <div class="inputs"> <button onclick="test(2, purple)">Place Cones</button> </div>
+  </div>
+  <div class="side-menu" id="group-3">
+    <h1> Group 3 </h1>
+    <div class="inputs"> What is the Sign Spacing? <input id="sign-3" value="500"/> </div>
+    <div class="inputs">
+      <label class="signs">
+        <input class="sign" type="checkbox" value="worker" onclick="signArray('3', this)" /> Worker Icon
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="flagger" onclick="signArray('3', this)" /> Flagger Icon
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="fAhead" onclick="signArray('3', this)" /> "Flagger Ahead"
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="men" onclick="signArray('3', this)" /> "Men Working
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="stop" onclick="signArray('3', this)" /> "Prepare to Stop
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="lane" onclick="signArray('3', this)" /> "One Lane Road Ahead"
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="work" onclick="signArray('3', this)" /> "Road Work Ahead"
+      </label>
+    </div>
+    <div class="inputs"> How long is the Transition Taper? <input id="upstream-3" value="100"/> </div>
+    <div class="inputs"> How long is the Buffer? <input id="buffer-3" value="500"/> </div>
+    <div class="inputs"> How long is the Downstream Taper? <input id="downstream-3" value="100"/> </div>
+    <div class="inputs"> <button onclick="test(3, blue)">Place Cones</button> </div>
+  </div>
+  <div class="side-menu" id="group-4">
+    <h1> Group 4 </h1>
+    <div class="inputs"> What is the Sign Spacing? <input id="sign-4" value="500"/> </div>
+    <div class="inputs">
+      <label class="signs">
+        <input class="sign" type="checkbox" value="worker" onclick="signArray('4', this)" /> Worker Icon
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="flagger" onclick="signArray('4', this)" /> Flagger Icon
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="fAhead" onclick="signArray('4', this)" /> "Flagger Ahead"
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="men" onclick="signArray('4', this)" /> "Men Working
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="stop" onclick="signArray('4', this)" /> "Prepare to Stop
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="lane" onclick="signArray('4', this)" /> "One Lane Road Ahead"
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="work" onclick="signArray('4', this)" /> "Road Work Ahead"
+      </label>
+    </div>
+    <div class="inputs"> How long is the Transition Taper? <input id="upstream-4" value="100"/> </div>
+    <div class="inputs"> How long is the Buffer? <input id="buffer-4" value="500"/> </div>
+    <div class="inputs"> How long is the Downstream Taper? <input id="downstream-4" value="100"/> </div>
+    <div class="inputs"> <button onclick="test(4, green)">Place Cones</button> </div>
+  </div>
+  <div class="side-menu" id="group-5">
+    <h1> Group 5 </h1>
+    <div class="inputs"> What is the Sign Spacing? <input id="sign-5" value="500"/> </div>
+    <div class="inputs">
+      <label class="signs">
+        <input class="sign" type="checkbox" value="worker" onclick="signArray('5', this)" /> Worker Icon
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="flagger" onclick="signArray('5', this)" /> Flagger Icon
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="fAhead" onclick="signArray('5', this)" /> "Flagger Ahead"
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="men" onclick="signArray('5', this)" /> "Men Working
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="stop" onclick="signArray('5', this)" /> "Prepare to Stop
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="lane" onclick="signArray('5', this)" /> "One Lane Road Ahead"
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="work" onclick="signArray('5', this)" /> "Road Work Ahead"
+      </label>
+    </div>
+    <div class="inputs"> How long is the Transition Taper? <input id="upstream-5" value="100"/> </div>
+    <div class="inputs"> How long is the Buffer? <input id="buffer-5" value="500"/> </div>
+    <div class="inputs"> How long is the Downstream Taper? <input id="downstream-5" value="100"/> </div>
+    <div class="inputs"> <button onclick="test(5, orange)">Place Cones</button> </div>
+  </div>
+  <div class="side-menu" id="group-6">
+    <h1> Group 6 </h1>
+    <div class="inputs"> What is the Sign Spacing? <input id="sign-6" value="500"/> </div>
+    <div class="inputs">
+      <label class="signs">
+        <input class="sign" type="checkbox" value="worker" onclick="signArray('6', this)" /> Worker Icon
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="flagger" onclick="signArray('6', this)" /> Flagger Icon
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="fAhead" onclick="signArray('6', this)" /> "Flagger Ahead"
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="men" onclick="signArray('6', this)" /> "Men Working
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="stop" onclick="signArray('6', this)" /> "Prepare to Stop
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="lane" onclick="signArray('6', this)" /> "One Lane Road Ahead"
+      </label>
+      <label class="signs">
+        <input class="sign" type="checkbox" value="work" onclick="signArray('6', this)" /> "Road Work Ahead"
+      </label>
+    </div>
+    <div class="inputs"> How long is the Transition Taper? <input id="upstream-6" value="100"/> </div>
+    <div class="inputs"> How long is the Buffer? <input id="buffer-6" value="500"/> </div>
+    <div class="inputs"> How long is the Downstream Taper? <input id="downstream-6" value="100"/> </div>
+    <div class="inputs"> <button onclick="test(6, yellow)">Place Cones</button> </div>
+  </div>
+  <div class="wrapper">
+    <div class="side" id="sidebar">
+      <a class="button group-1" onclick="slide('group-1')">
+        <img class="cone" src="images/cone-01.png" />
+      </a>
+      <a class="button group-2" onclick="slide('group-2')">
+        <img class="cone" src="images/cone-06.png" />
+      </a>
+      <a class="button group-3" onclick="slide('group-3')">
+        <img class="cone" src="images/cone-03.png" />
+      </a>
+      <a class="button group-4" onclick="slide('group-4')">
+        <img class="cone" src="images/cone-02.png" />
+      </a>
+      <a class="button group-5" onclick="slide('group-5')">
+        <img class="cone" src="images/cone-04.png" />
+      </a>
+      <a class="button group-6" onclick="slide('group-6')">
+        <img class="cone" src="images/cone-05.png" />
+      </a>
+    </div>
+    <div class="container">
+    <!--  <div class="nav">
+        <h1>Basic Work Zone Safety</h1>
+      </div> -->
+      <div id="container"></div>
+    </div>
+  </div>
+
+  <footer>
+		<script src="bundled.min.js"></script>
+  </footer>
+</body>
+</html>

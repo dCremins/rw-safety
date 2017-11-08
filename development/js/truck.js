@@ -1,6 +1,15 @@
 function initTruck() {
-	const truck = new THREE.Group()
-	const shadowCopy = new THREE.Geometry()
+	let meshes = new THREE.Geometry()
+	let shadow = new THREE.Geometry()
+	const materials = [
+		offwhite,			// 0
+		windowColor,	// 1
+		gray,					// 2
+		palegray,			// 3
+		red,					// 4
+		orange,				// 5
+		shadows				// 6
+	]
 	// Base
 	const core = new THREE.Geometry()
 	const nose = new THREE.BoxGeometry(1, 0.8, 1.3)
@@ -25,6 +34,7 @@ function initTruck() {
 	core.merge(shieldRight)
 	shieldRight.translate(0, 0, 1.2)
 	core.merge(shieldRight)
+
 	const windshield = new THREE.BoxGeometry(1, 0.8, 1.29)
 	// X
 	windshield.vertices[4].x += 0.26
@@ -40,8 +50,13 @@ function initTruck() {
 	windshield.vertices[5].y += 2.2
 	windshield.vertices[6].y += 2.3
 	windshield.vertices[7].y += 2.3
-	const shield = new THREE.Mesh(windshield, windowColor)
-	truck.add(shield)
+
+	shadow.merge(windshield)
+	for (var j = 0; j < windshield.faces.length; j++) {
+		windshield.faces[j].materialIndex = 1;
+	}
+	meshes.mergeMesh(new THREE.Mesh(windshield))
+
 	const bed = new THREE.BoxGeometry(3.2, 0.3, 1.3)
 	bed.translate(0.9, -0.31, 0)
 	core.merge(bed)
@@ -54,11 +69,21 @@ function initTruck() {
 	bedBack.translate(2.45, 0.1, 0)
 	core.merge(bedBack)
 	core.translate(0, 1.5, 0)
-	const shadowCore = core.clone(true)
-	shadowCopy.merge(shadowCore)
-	const base = new THREE.Mesh(core, offwhite)
-	base.castShadow = true
-	truck.add(base)
+	const hubGeometry = new THREE.TorusGeometry(0.25, 0.1, 3, 199)
+	hubGeometry.translate(-0.3, 1.09, 0.63)
+	core.merge(hubGeometry)
+	hubGeometry.translate(0, 0, -1.3)
+	core.merge(hubGeometry)
+	hubGeometry.translate(2, 0, 1.3)
+	core.merge(hubGeometry)
+	hubGeometry.translate(0, 0, -1.3)
+	core.merge(hubGeometry)
+
+	shadow.merge(core)
+	for (var j = 0; j < core.faces.length; j++) {
+		core.faces[j].materialIndex = 0;
+	}
+	meshes.mergeMesh(new THREE.Mesh(core))
 	// Inside
 	const seat = new THREE.Geometry()
 	const seatButt = new THREE.BoxGeometry(0.4, 0.1, 0.4)
@@ -75,10 +100,28 @@ function initTruck() {
 	steering.translate(-1.9, 0.65, 0.3)
 	steering.rotateZ(-1.2)
 	seat.merge(steering)
-	const shadowSeat = seat.clone(true)
-	shadowCopy.merge(shadowSeat)
-	const seatPiece = new THREE.Mesh(seat, gray)
-	truck.add(seatPiece)
+	const wheelGeometry = new THREE.CylinderGeometry(0.45, 0.45, 0.2, 32)
+	wheelGeometry.translate(-0.3, 0.55, -1.1)
+	wheelGeometry.rotateX(1.6)
+	seat.merge(wheelGeometry)
+	wheelGeometry.translate(0, 0, -1.2)
+	seat.merge(wheelGeometry)
+	wheelGeometry.translate(2, 0, 1.2)
+	seat.merge(wheelGeometry)
+	wheelGeometry.translate(0, 0, -1.2)
+	seat.merge(wheelGeometry)
+	const grill = new THREE.BoxGeometry(0.01, 0.7, 1.2)
+	grill.translate(-1.1, 1.5, 0)
+	seat.merge(grill)
+	const license = new THREE.BoxGeometry(0.05, 0.2, 0.5)
+	license.translate(2.5, 1.25, 0)
+	seat.merge(license)
+
+	shadow.merge(seat)
+	for (var j = 0; j < seat.faces.length; j++) {
+		seat.faces[j].materialIndex = 2;
+	}
+	meshes.mergeMesh(new THREE.Mesh(seat))
 	// Bumper
 
 	const bumperGeometry = new THREE.Geometry()
@@ -99,48 +142,13 @@ function initTruck() {
 	backBumper.vertices[6].x -= 0.01
 	backBumper.vertices[7].x -= 0.01
 	bumperGeometry.merge(backBumper)
-	const shadowBumper = bumperGeometry.clone(true)
-	shadowCopy.merge(shadowBumper)
-	const bumper = new THREE.Mesh(bumperGeometry, palegray)
-	truck.add(bumper)
-	// Wheels
-	const wheels = new THREE.Geometry()
-	const wheelGeometry = new THREE.CylinderGeometry(0.45, 0.45, 0.2, 32)
-	wheelGeometry.translate(-0.3, 0.55, -1.1)
-	wheelGeometry.rotateX(1.6)
-	wheels.merge(wheelGeometry)
-	wheelGeometry.translate(0, 0, -1.2)
-	wheels.merge(wheelGeometry)
-	wheelGeometry.translate(2, 0, 1.2)
-	wheels.merge(wheelGeometry)
-	wheelGeometry.translate(0, 0, -1.2)
-	wheels.merge(wheelGeometry)
-	const grill = new THREE.BoxGeometry(0.01, 0.7, 1.2)
-	grill.translate(-1.1, 1.5, 0)
-	wheels.merge(grill)
-	const license = new THREE.BoxGeometry(0.05, 0.2, 0.5)
-	license.translate(2.5, 1.25, 0)
-	wheels.merge(license)
-	const shadowWheel = wheels.clone(true)
-	shadowCopy.merge(shadowWheel)
-	const greys = new THREE.Mesh(wheels, gray)
-	greys.castShadow = true
-	truck.add(greys)
-	// Hubcaps
-	const hubs = new THREE.Geometry()
-	const hubGeometry = new THREE.TorusGeometry(0.25, 0.1, 3, 199)
-	hubGeometry.translate(-0.3, 1.09, 0.63)
-	hubs.merge(hubGeometry)
-	hubGeometry.translate(0, 0, -1.3)
-	hubs.merge(hubGeometry)
-	hubGeometry.translate(2, 0, 1.3)
-	hubs.merge(hubGeometry)
-	hubGeometry.translate(0, 0, -1.3)
-	hubs.merge(hubGeometry)
-	const shadowHubs = hubs.clone(true)
-	shadowCopy.merge(shadowHubs)
-	const hubcaps = new THREE.Mesh(hubs, offwhite)
-	truck.add(hubcaps)
+
+	shadow.merge(bumperGeometry)
+	for (var j = 0; j < bumperGeometry.faces.length; j++) {
+		bumperGeometry.faces[j].materialIndex = 3;
+	}
+	meshes.mergeMesh(new THREE.Mesh(bumperGeometry))
+
 	// Back
 	const brakeLights = new THREE.Geometry()
 	const leftLight = new THREE.BoxGeometry(0.1, 0.1, 0.1)
@@ -148,25 +156,34 @@ function initTruck() {
 	brakeLights.merge(leftLight)
 	leftLight.translate(0, 0, -0.9)
 	brakeLights.merge(leftLight)
-	const shadowlights = brakeLights.clone(true)
-	shadowCopy.merge(shadowlights)
-	const brakes = new THREE.Mesh(brakeLights, red)
-	truck.add(brakes)
+
+	shadow.merge(brakeLights)
+	for (var j = 0; j < brakeLights.faces.length; j++) {
+		brakeLights.faces[j].materialIndex = 4;
+	}
+	meshes.mergeMesh(new THREE.Mesh(brakeLights))
 
 	// Lights
 	const lightGeometry = new THREE.BoxGeometry(0.1, 0.05, 0.5)
 	lightGeometry.translate(0.2, 2.72, 0)
-	const shadowlTopLights = lightGeometry.clone(true)
-	shadowCopy.merge(shadowlTopLights)
-	const light = new THREE.Mesh(lightGeometry, orange)
-	light.castShadow = true
-	truck.add(light)
 
-	const baseShadow = new THREE.Mesh(shadowCopy, shadows)
-	truck.add(baseShadow)
+	shadow.merge(lightGeometry)
+	for (var j = 0; j < lightGeometry.faces.length; j++) {
+		lightGeometry.faces[j].materialIndex = 5;
+	}
+	meshes.mergeMesh(new THREE.Mesh(lightGeometry))
+	
+	for (var j = 0; j < shadow.faces.length; j++) {
+		shadow.faces[j].materialIndex = 6;
+	}
+	meshes.mergeMesh(new THREE.Mesh(shadow))
 
-	truck.position.set(0, 0, 7)
-	truck.rotation.y += 0.5
-	truck.scale.set(0.9, 0.9, 0.9)
-	scene.add(truck)
+	meshes.translate(-4, 0, 7.5)
+	meshes.rotateY(0.5)
+	meshes.scale(0.9, 0.9, 0.9)
+
+	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
+	let combinedMesh = new THREE.Mesh(meshes, materials)
+	combinedMesh.castShadow = true
+	scene.add(combinedMesh)
 }

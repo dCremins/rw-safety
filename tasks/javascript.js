@@ -1,15 +1,19 @@
 const gulp = require('gulp')
 const concat = require('gulp-concat')
 const plumber = require('gulp-plumber')
-const sourcemaps = require('gulp-sourcemaps')
-const rename = require('gulp-rename')
+const optimizejs = require('gulp-optimize-js')
 const uglifyjs = require('uglify-es')
+const rename = require('gulp-rename')
 const composer = require('gulp-uglify/composer')
+const gutil = require('gulp-util')
 
 const uglify = composer(uglifyjs, console)
 
 gulp.task('javascript', () => {
 	return gulp.src([
+		'./development/includes/three.min.js',
+		'./development/includes/OrbitControls.js',
+		'./development/includes/threex.dynamictexture.js',
 		'./development/js/materials.js',
 		'./development/js/init.js',
 		'./development/js/road.js',
@@ -30,11 +34,14 @@ gulp.task('javascript', () => {
 		'./development/js/input.js'
 	])
 		.pipe(plumber())
-    .pipe(sourcemaps.init())
-		.pipe(concat('main.js'))
+		.pipe(concat('bundled.js'))
 		.pipe(uglify())
-		.pipe(rename('main.min.js'))
+    .pipe(optimizejs())
+		.pipe(rename('bundled.min.js'))
 		.pipe(gulp.dest('./app'))
+		.on('end', () => {
+			gutil.log('Watch Triggered')
+		})
 })
 
 gulp.task('js:watch', () => {
