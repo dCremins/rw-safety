@@ -42,7 +42,7 @@ function initLights() {
 function initRender() {
 	renderer = new THREE.WebGLRenderer({antialias: true})
 	const container = document.getElementById('container')
-	renderer.setSize(window.innerWidth - 110, window.innerHeight)
+	renderer.setSize(window.innerWidth - 115, window.innerHeight)
 	renderer.setClearColor(0xFFFFFF, 1)
 	renderer.setPixelRatio( window.devicePixelRatio )
 	renderer.shadowMap.enabled = true
