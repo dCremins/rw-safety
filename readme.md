@@ -1,4 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/hci24bpecbh8y00j/branch/master?svg=true)](https://ci.appveyor.com/project/dCremins/rw-safety/branch/master)
+[![Dependencies](https://david-dm.org/dCremins/rw-safety.svg)
 
 # road-work-safety
 
