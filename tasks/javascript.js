@@ -5,6 +5,7 @@ const optimizejs = require('gulp-optimize-js')
 const uglifyjs = require('uglify-es')
 const rename = require('gulp-rename')
 const composer = require('gulp-uglify/composer')
+const gutil = require('gulp-util')
 
 const uglify = composer(uglifyjs, console)
 
@@ -38,6 +39,9 @@ gulp.task('javascript', () => {
     .pipe(optimizejs())
 		.pipe(rename('bundled.min.js'))
 		.pipe(gulp.dest('./app'))
+		.on('end', () => {
+			gutil.log('Watch Triggered')
+		})
 })
 
 gulp.task('js:watch', () => {

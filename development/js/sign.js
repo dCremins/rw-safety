@@ -13,7 +13,8 @@ function signArray(group, checkbox) {
 }
 
 function signSpace(color, group, start) {
-	let meshes = new THREE.Geometry()
+	const meshes = new THREE.Geometry()
+	const shadow = new THREE.Geometry()
 	const materials = [
 		color,										// 0
 		workerSignMaterial,				// 1
@@ -65,16 +66,19 @@ function signSpace(color, group, start) {
 				break
 		}
 
+		shadow.mergeMesh(signBase)
 		for (var j = 0; j < signBase.faces.length; j++) {
 			signBase.faces[j].materialIndex = x;
 		}
 		meshes.mergeMesh(new THREE.Mesh(signBase))
 
+		shadow.mergeMesh(signColor)
 		for (var j = 0; j < signColor.faces.length; j++) {
 			signColor.faces[j].materialIndex = 0;
 		}
 		meshes.mergeMesh(new THREE.Mesh(signColor))
 
+		shadow.mergeMesh(stick)
 		for (var j = 0; j < stick.faces.length; j++) {
 			stick.faces[j].materialIndex = 0;
 		}
@@ -86,6 +90,10 @@ function signSpace(color, group, start) {
 		signColor.translate(-2, 0, 0)
 		stick.translate(-2, 0, 0)
 	}
+	for (var j = 0; j < shadow.faces.length; j++) {
+		shadow.faces[j].materialIndex = 8;
+	}
+	meshes.mergeMesh(new THREE.Mesh(shadow))
 
 	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 	let combinedMesh = new THREE.Mesh(meshes, materials)

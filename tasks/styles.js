@@ -1,6 +1,7 @@
 const gulp = require('gulp')
 const sass = require('gulp-sass')
 const plumber = require('gulp-plumber')
+const gutil = require('gulp-util')
 
 gulp.task('sass', () => {
 	return gulp.src('./development/scss/main.scss')
@@ -10,5 +11,7 @@ gulp.task('sass', () => {
 })
 
 gulp.task('sass:watch', () => {
-	gulp.watch('./development/scss/**/*.scss', ['sass'])
+	gulp.watch('./development/scss/**/*.scss', ['sass'], () => {
+		gutil.log('Watch Triggered')
+	})
 })

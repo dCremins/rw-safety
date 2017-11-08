@@ -2,7 +2,7 @@
   "name": "road-work-safety",
   "productName": "RoadWorkSafety",
   "description": "Instructional Application for use with the ITRE Road Work Safety Training Course",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "Devin Cremins <drcremin@ncsu.edu>",
   "homepage": "http://octopusoddments.com",
   "license": "MIT",
@@ -60,6 +60,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
     "require-dir": "^0.3.2",
     "uglify-es": "^3.1.5",
     "xo": "^0.18.2"
@@ -73,7 +74,6 @@
       "browser"
     ],
     "ignores": [
-      "app/includes/**/*",
       "development/**/*",
       "**/*.html"
     ],

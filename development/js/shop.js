@@ -8,7 +8,8 @@ function initShop()	{
 		red,						// 3
 		blue,						// 4
 		purple,					// 5
-		orange					// 6
+		orange,					// 6
+		shadows					// 7
 	]
 
 	const shopBase = new THREE.Geometry()
@@ -263,17 +264,16 @@ function initShop()	{
 	meshes.mergeMesh(new THREE.Mesh(awningB))
 	shopShadow.mergeMesh(new THREE.Mesh(awningB))
 
+	for (var j = 0; j < shopShadow.faces.length; j++) {
+		shopShadow.faces[j].materialIndex = 7;
+	}
+	meshes.mergeMesh(new THREE.Mesh(shopShadow))
+
 // Create the combined mesh
 meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 let combinedMesh = new THREE.Mesh(meshes, materials)
 combinedMesh.position.set(8, 1, -8)
 combinedMesh.castShadow = true
 
-shopShadow = new THREE.BufferGeometry().fromGeometry(shopShadow)
-let combinedShadow = new THREE.Mesh(shopShadow, shadows)
-combinedShadow.position.set(8, 1, -8)
-combinedShadow.receiveShadow = true
-
 scene.add(combinedMesh)
-scene.add(combinedShadow)
 }

@@ -80,14 +80,6 @@ function initRoad() {
 	}
 	meshes.mergeMesh(new THREE.Mesh(lineGeometry))
 
-	//const bottomGeometry = new THREE.BoxGeometry(45, 1, 7)
-	//bottomGeometry.translate(0, 0, 7.5)
-
-	//for (var j = 0; j < bottomGeometry.faces.length; j++) {
-	//	bottomGeometry.faces[j].materialIndex = 0;
-	//}
-	//meshes.mergeMesh(new THREE.Mesh(bottomGeometry))
-
 	const dividerGeometry = new THREE.Geometry()
 	const dividerLine = new THREE.BoxGeometry(1, 0.1, 0.2)
 	dividerLine.translate(-22, 0.5, 0)
@@ -104,7 +96,7 @@ function initRoad() {
 
 	const shadowGeometry = new THREE.BoxGeometry(45, 1, 25)
 	const floorShadows = new THREE.Mesh(shadowGeometry, shadows)
-	floorShadows.position.set(0, 0.05, -1.5)
+	floorShadows.position.set(0, 0.0001, -1.5)
 	floorShadows.receiveShadow = true
 	scene.add(floorShadows)
 	objects.push(floorShadows)

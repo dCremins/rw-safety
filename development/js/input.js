@@ -17,10 +17,6 @@ function test(group, color) {
 		scene.remove(scene.getObjectByName(group+'-cones'))
 		//scene.getObjectByName(group+'-cones').geometry.dispose()
 	}
-	if (scene.getObjectByName(group+'-shadows')) {
-		scene.remove(scene.getObjectByName(group+'-shadows'))
-		//scene.getObjectByName(group+'-shadows').geometry.dispose()
-	}
 	if (scene.getObjectByName('signGroup-' + group)) {
 		scene.remove(scene.getObjectByName('signGroup-' + group))
 	}
@@ -139,17 +135,16 @@ function test(group, color) {
 
 	shadow.merge(coneGroup)
 
+	for (var j = 0; j < shadow.faces.length; j++) {
+		shadow.faces[j].materialIndex = 2;
+	}
+	meshes.mergeMesh(new THREE.Mesh(shadow))
+
 	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 	let combinedMesh = new THREE.Mesh(meshes, materials)
 	combinedMesh.castShadow = true
 	combinedMesh.name = (group+'-cones')
 	scene.add(combinedMesh)
-
-	shadow = new THREE.BufferGeometry().fromGeometry(shadow)
-	let combinedShadows = new THREE.Mesh(shadow, shadows)
-	combinedShadows.receiveShadow = true
-	combinedShadows.name = (group+'-shadows')
-	scene.add(combinedShadows)
 
 /* Close Sidebar */
 	slide('group-' + group)
