@@ -5,6 +5,7 @@ function onDocumentMouseCancel(event) {
 		selected = null
 	}
 	renderer.domElement.style.cursor = 'auto'
+	render()
 }
 
 function onDocumentTouchEnd(event) {
@@ -14,4 +15,5 @@ function onDocumentTouchEnd(event) {
 		selected = null
 	}
 	renderer.domElement.style.cursor = 'auto'
+	render()
 }

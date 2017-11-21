@@ -22,6 +22,7 @@ function onDocumentMouseMove(event) {
 		renderer.domElement.style.cursor = 'auto'
 		hovered = null
 	}
+	render()
 }
 
 function onDocumentTouchMove(event) {
@@ -37,4 +38,5 @@ function onDocumentTouchMove(event) {
 			selected.position.set(raycaster.intersectObjects(objects)[0].point.x, selected.position.y, raycaster.intersectObjects(objects)[0].point.z)
 		}
 	}
+	render()
 }

@@ -172,7 +172,7 @@ function initTruck() {
 		lightGeometry.faces[j].materialIndex = 5;
 	}
 	meshes.mergeMesh(new THREE.Mesh(lightGeometry))
-	
+
 	for (var j = 0; j < shadow.faces.length; j++) {
 		shadow.faces[j].materialIndex = 6;
 	}

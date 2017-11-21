@@ -13,7 +13,7 @@ function signArray(group, checkbox) {
 }
 
 function signSpace(color, group, start) {
-	const meshes = new THREE.Geometry()
+	let meshes = new THREE.Geometry()
 	const shadow = new THREE.Geometry()
 	const materials = [
 		color,										// 0

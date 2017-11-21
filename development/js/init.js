@@ -42,7 +42,7 @@ function initLights() {
 function initRender() {
 	renderer = new THREE.WebGLRenderer({antialias: true})
 	const container = document.getElementById('container')
-	renderer.setSize(window.innerWidth - 115, window.innerHeight)
+	renderer.setSize(window.innerWidth - 120, window.innerHeight - 10)
 	renderer.setClearColor(0xFFFFFF, 1)
 	renderer.setPixelRatio( window.devicePixelRatio )
 	renderer.shadowMap.enabled = true
@@ -50,12 +50,12 @@ function initRender() {
 	container.appendChild(renderer.domElement)
 	controls = new THREE.OrbitControls(camera, renderer.domElement)
 	controls.addEventListener( 'change', render )
-	//controls.enabled = false
+	controls.enabled = false
 
-	//container.addEventListener('mousemove', onDocumentMouseMove, false)
-	//container.addEventListener('mouseup', onDocumentMouseCancel, false)
-	//container.addEventListener('mousedown', onDocumentMouseDown, false)
-	/* container.addEventListener('touchmove', onDocumentTouchMove, false)
+	container.addEventListener('mousemove', onDocumentMouseMove, false)
+	container.addEventListener('mouseup', onDocumentMouseCancel, false)
+	container.addEventListener('mousedown', onDocumentMouseDown, false)
+	container.addEventListener('touchmove', onDocumentTouchMove, false)
 	container.addEventListener('touchstart', onDocumentTouchStart, false)
-	container.addEventListener('touchend', onDocumentTouchEnd, false) */
+	container.addEventListener('touchend', onDocumentTouchEnd, false)
 }

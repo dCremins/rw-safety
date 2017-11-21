@@ -10,6 +10,7 @@ function onDocumentMouseDown(event) {
 		}
 		renderer.domElement.style.cursor = 'move'
 	}
+	render()
 }
 
 function onDocumentTouchStart(event) {
@@ -28,4 +29,5 @@ function onDocumentTouchStart(event) {
 		}
 		renderer.domElement.style.cursor = 'move'
 	}
+	render()
 }
