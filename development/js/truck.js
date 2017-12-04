@@ -7,7 +7,7 @@ function initTruck() {
 		gray,					// 2
 		palegray,			// 3
 		red,					// 4
-		orange,				// 5
+		truckMaterial,				// 5
 		shadows				// 6
 	]
 	// Base
@@ -178,7 +178,7 @@ function initTruck() {
 	}
 	meshes.mergeMesh(new THREE.Mesh(shadow))
 
-	meshes.translate(-4, 0, 7.5)
+	meshes.translate(-4, 0, 1.5)
 	meshes.rotateY(0.5)
 	meshes.scale(0.9, 0.9, 0.9)
 

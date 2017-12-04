@@ -6,43 +6,17 @@ function initRoad() {
 		palegray,		// 1
 		yellow,			// 2
 		white,			// 3
-		gray				// 4
+		gray,				// 4
+		truckMaterial			// 5
 	]
 
 	const greenery = new THREE.Geometry()
-	const topGeometry = new THREE.BoxGeometry(45, 1, 10)
-	topGeometry.translate(0, 0, -9)
+	const topGeometry = new THREE.BoxGeometry(155, 1, 38)
+	topGeometry.translate(0, 0, -32)
 	greenery.merge(topGeometry)
-	const bottomGeometry = new THREE.BoxGeometry(45, 1, 7)
-	bottomGeometry.translate(0, 0, 7.5)
+	const bottomGeometry = new THREE.BoxGeometry(155, 1, 23)
+	bottomGeometry.translate(0, 0, 11.5)
 	greenery.merge(bottomGeometry)
-	// Trees
-	const tallCone = new THREE.ConeGeometry(1.68, 4, 32)
-	tallCone.translate(-18, 4.35, -10.5)
-	greenery.merge(tallCone)
-	tallCone.translate(7, 0, 18.5)
-	greenery.merge(tallCone)
-	const tallSphere = new THREE.SphereGeometry(1.8, 60, 60)
-	tallSphere.translate(-18, 1.7, -10.5)
-	greenery.merge(tallSphere)
-	tallSphere.translate(7, 0, 18.5)
-	greenery.merge(tallSphere)
-	const smallCone = tallCone.clone()
-	smallCone.scale(0.5, 0.5, 0.5)
-	smallCone.translate(0, 0.2, -12)
-	greenery.merge(smallCone)
-	smallCone.translate(17.5, 0, 14)
-	greenery.merge(smallCone)
-	smallCone.translate(4.5, 0, -16.5)
-	greenery.merge(smallCone)
-	const smallSphere = tallSphere.clone()
-	smallSphere.scale(0.5, 0.5, 0.5)
-	smallSphere.translate(0, 0.2, -12)
-	greenery.merge(smallSphere)
-	smallSphere.translate(17.5, 0, 14)
-	greenery.merge(smallSphere)
-	smallSphere.translate(4.5, 0, -16.5)
-	greenery.merge(smallSphere)
 
 	shadow.merge(greenery)
 
@@ -51,7 +25,8 @@ function initRoad() {
 	}
 	meshes.mergeMesh(new THREE.Mesh(greenery))
 
-	const roadGeometry = new THREE.BoxGeometry(45, 1, 8)
+	const roadGeometry = new THREE.BoxGeometry(155, 1, 13)
+	roadGeometry.translate(0, 0, -6.5)
 
 	for (var j = 0; j < roadGeometry.faces.length; j++) {
 		roadGeometry.faces[j].materialIndex = 1;
@@ -59,21 +34,11 @@ function initRoad() {
 	meshes.mergeMesh(new THREE.Mesh(roadGeometry))
 
 	let lineGeometry = new THREE.Geometry()
-	lineGeometry.vertices.push(
-		new THREE.Vector3(-22.5, 0.51, -3.7),
-		new THREE.Vector3(22.5, 0.51, -3.7)
-	)
-
-	for (var j = 0; j < lineGeometry.faces.length; j++) {
-		lineGeometry.faces[j].materialIndex = 3;
-	}
-	meshes.mergeMesh(new THREE.Mesh(lineGeometry))
-
-	lineGeometry = new THREE.Geometry()
-	lineGeometry.vertices.push(
-		new THREE.Vector3(-22.5, 0.51, 3.7),
-		new THREE.Vector3(22.5, 0.51, 3.7)
-	)
+	const line = new THREE.BoxGeometry(155, .01, .1)
+	line.translate(0, .5, -12.5)
+	lineGeometry.merge(line)
+	line.translate(0, 0, 12)
+	lineGeometry.merge(line)
 
 	for (var j = 0; j < lineGeometry.faces.length; j++) {
 		lineGeometry.faces[j].materialIndex = 3;
@@ -82,9 +47,9 @@ function initRoad() {
 
 	const dividerGeometry = new THREE.Geometry()
 	const dividerLine = new THREE.BoxGeometry(1, 0.1, 0.2)
-	dividerLine.translate(-22, 0.5, 0)
+	dividerLine.translate(-52, 0.5, -6.5)
 	dividerGeometry.merge(dividerLine)
-	for (let i = 22; i >= -21; i -= 2) {
+	for (let i = 52; i >= -50; i -= 2) {
 		dividerLine.translate(2, 0, 0)
 		dividerGeometry.merge(dividerLine)
 	}
@@ -94,7 +59,7 @@ function initRoad() {
 	}
 	meshes.mergeMesh(new THREE.Mesh(dividerGeometry))
 
-	const shadowGeometry = new THREE.BoxGeometry(45, 1, 25)
+	const shadowGeometry = new THREE.BoxGeometry(155, 1, 25)
 	const floorShadows = new THREE.Mesh(shadowGeometry, shadows)
 	floorShadows.position.set(0, 0.0001, -1.5)
 	floorShadows.receiveShadow = true
@@ -105,19 +70,19 @@ function initRoad() {
 	const stripe = new THREE.Geometry()
 	const coneCore = coneGeometry.clone(true)
 	const stripeCore = stripeGeometry.clone(true)
-	coneCore.translate(0, 0.75, 0.5)
+	coneCore.translate(0, 0.75, -5.5)
 	cone.merge(coneCore)
-	stripeCore.translate(0, 0.75, 0.5)
+	stripeCore.translate(0, 0.75, -5.5)
 	stripe.merge(stripeCore)
-	for (var i = 1.5; i <= 10; i += 1.5) {
-		coneCore.translate(1.5, 0, 0)
+	for (var i = 1.5; i <= 10; i += 2) {
+		coneCore.translate(2, 0, 0)
 		cone.merge(coneCore)
-		stripeCore.translate(1.5, 0, 0)
+		stripeCore.translate(2, 0, 0)
 		stripe.merge(stripeCore)
 	}
 
 	for (var j = 0; j < cone.faces.length; j++) {
-		cone.faces[j].materialIndex = 4;
+		cone.faces[j].materialIndex = 5;
 	}
 	meshes.mergeMesh(new THREE.Mesh(cone))
 

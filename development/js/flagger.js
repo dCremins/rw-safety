@@ -338,59 +338,16 @@ function flagger(color) {
 	meshes.mergeMesh(new THREE.Mesh(stick))
 
 
-
 	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 	let combinedMesh = new THREE.Mesh(meshes, materials)
 	combinedMesh.castShadow = true
-	combinedMesh.position.set(-1, 1.2, -1)
+	combinedMesh.position.set(-10, 1.2, 1)
 	scene.add(combinedMesh)
 	flaggers.push(combinedMesh)
 
 	const person2 = combinedMesh.clone(true)
-	person2.position.set(1, 1.2, -1)
+	person2.position.set(10, 1.2, -14)
 	scene.add(person2)
 	flaggers.push(person2)
 
-	// Hammer.js
-/*
-	var movable = new Hammer(person2)
-	movable.add( new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0 }) )
-	movable.on("pan", handleDrag)
-	var lastPosX = 0
-	var lastPosY = 0
-	var isDragging = false
-
-	const rect = renderer.domElement.getBoundingClientRect()
-	mouse.x = (((event.clientX - rect.left) / rect.width) * 2) - 1
-	mouse.y = -(((event.clientY - rect.top) / rect.height) * 2) + 1
-	raycaster.setFromCamera(mouse, camera)
-
-	function handleDrag(event) {
-		controls.enabled = false
-		console.log('dragging')
-		var elem = event.target
-		if ( ! isDragging ) {
-	    isDragging = true
-	    lastPosX = elem.offsetLeft
-	    lastPosY = elem.offsetTop
-	  }
-		/*
-		var posX = ev.deltaX + lastPosX
-	  var posY = ev.deltaY + lastPosY
-
-	  elem.style.left = posX + "px"
-	  elem.style.top = posY + "px"
-
-
-		if (selected) {
-			if (raycaster.intersectObjects(objects)) {
-				selected.position.set(0, 1, 0)
-				selected.position.set(raycaster.intersectObjects(objects)[0].point.x, selected.position.y, raycaster.intersectObjects(objects)[0].point.z)
-			}
-		}
-	  if (event.isFinal) {
-	    isDragging = false
-	  }
-
-	} */
 }

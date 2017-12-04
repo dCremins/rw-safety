@@ -183,10 +183,10 @@ function initBackHoe() {
 	const shape = new THREE.Shape()
 	shape.moveTo(0, 0.75)
 	shape.bezierCurveTo(0, 1.75, 1.5, 1.75, 1.5, 0.75)
-	shape.lineTo(1.125, 0.75)
+	shape.lineTo(1.125, 0.75001)
 	shape.bezierCurveTo(1.125, 1.25, 0.375, 1.25, 0.375, 0.75)
 	shape.bezierCurveTo(0.375, 0.35, 1.125, 0.35, 1.125, 0.75)
-	shape.lineTo(1.5, 0.75)
+	shape.lineTo(1.5, 0.75001)
 	shape.bezierCurveTo(1.5, -0.125, 0, -0.125, 0, 0.75)
 
 	const extrudeSettings = {
@@ -325,7 +325,7 @@ function initBackHoe() {
 	shadowHoe.merge(truckHub)
 
 	for (var j = 0; j < truckHub.faces.length; j++) {
-		truckHub.faces[j].materialIndex = 2;
+		truckHub.faces[j].materialIndex = 0;
 	}
 	meshes.mergeMesh(new THREE.Mesh(truckHub))
 	// Add To scene
@@ -338,6 +338,6 @@ function initBackHoe() {
 	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 	let combinedMesh = new THREE.Mesh(meshes, materials)
 	combinedMesh.castShadow = true
-	combinedMesh.position.set(2.5, 1.4, 2.8)
+	combinedMesh.position.set(2.5, 1.4, -2)
 	scene.add(combinedMesh)
 }

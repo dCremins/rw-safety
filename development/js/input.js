@@ -25,57 +25,55 @@ function test(group, color) {
 
 	switch (group) {
 		case 1:
-			initialX = 0
+			initialX = -1
 			break
 		case 2:
-			initialX = -0.5
-			break
-		case 3:
 			initialX = -1.5
 			break
-		case 4:
+		case 3:
 			initialX = -2
 			break
-		case 5:
+		case 4:
 			initialX = -2.5
 			break
-		case 6:
+		case 5:
 			initialX = -3
+			break
+		case 6:
+			initialX = -3.5
 			break
 		default:
 			break
 	}
 	const buffer = Number(document.getElementById('buffer-' + group).value)
-	cone.translate(initialX, 0.75, 0.5)
+	cone.translate(initialX, 0.75, -5.5)
 	coneGroup.merge(cone)
-	stripe.translate(initialX, 0.75, 0.5)
+	stripe.translate(initialX, 0.75, -5.5)
 	stripeGroup.merge(stripe)
 
 	let x = initialX
-	let cones = 1 + (buffer / 100)
+	let cones = 1 + (buffer / 200)
 	let spacing = (buffer / 50) / cones
 
-	while (Math.abs(x - spacing) <= (Math.abs((buffer / 50)) - initialX) && Math.abs(x) <= 23) {
-		cone.translate(-spacing, 0, 0)
+
+	for (let i = initialX; i <= (buffer / 50); i+=2) {
+		cone.translate(-2, 0, 0)
 		coneGroup.merge(cone)
-		stripe.translate(-spacing, 0, 0)
-		stripeGroup.merge(stripe)
-		x -= spacing
+		x-=2
 	}
 
 /* Transition Taper */
 
 	const upstream = Number(document.getElementById('upstream-' + group).value)
-	cones = 2 + (upstream / 100)
-	spacing = (upstream / 50) / cones
-	let y = (3 / cones) + 0.5
-	for (let i = 1; i <= cones; i++) {
-		cone.translate(-spacing, 0, (3 / cones))
+
+	cones = 4 + ((upstream - 100) / 100)
+	let angle = 5.5 / cones
+	let y = .5 + angle
+	for (let i = Math.abs(x); i >= Math.abs(x - (upstream / 50)); i+=2) {
+		console.log(i)
+		cone.translate(-2, 0, angle)
 		coneGroup.merge(cone)
-		stripe.translate(-spacing, 0, (3 / cones))
-		stripeGroup.merge(stripe)
-		x -= spacing
-		y += 3 / cones
+		x-=2
 	}
 
 /* Sign Spacing */
@@ -85,22 +83,22 @@ function test(group, color) {
 
 	switch (group) {
 		case 1:
-			initialX = 9
-			break
-		case 2:
 			initialX = 9.5
 			break
-		case 3:
+		case 2:
 			initialX = 10
 			break
-		case 4:
+		case 3:
 			initialX = 10.5
 			break
-		case 5:
+		case 4:
 			initialX = 11
 			break
-		case 6:
+		case 5:
 			initialX = 11.5
+			break
+		case 6:
+			initialX = 12
 			break
 		default:
 			break
@@ -109,15 +107,15 @@ function test(group, color) {
 	cone.translate(Math.abs(x)+initialX, 0, -Math.abs(y)+.5)
 	stripe.translate(Math.abs(x)+initialX, 0, -Math.abs(y)+.5)
 	x = initialX
-	cones = 2 + (downstream / 100)
+	cones = 2 + (downstream / 200)
 	spacing = (downstream / 50) / cones
 	y = 0.5
 	while (Math.abs(x) <= ((downstream / 50) + initialX) && Math.abs(x) <= 21.5) {
-		cone.translate(spacing, 0, (3 / cones))
+		cone.translate(spacing, 0, (4.5 / cones))
 		coneGroup.merge(cone)
-		stripe.translate(spacing, 0, (3 / cones))
+		stripe.translate(spacing, 0, (4.5 / cones))
 		stripeGroup.merge(stripe)
-		y += 3 / cones
+		y += 4.5 / cones
 		x += spacing
 	}
 

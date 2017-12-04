@@ -57,4 +57,8 @@ const coneGeometry = new THREE.CylinderGeometry(0.07, 0.2, 0.5, 32, 0.8, false, 
 const coneBottomG = new THREE.BoxGeometry(0.5, 0.06, 0.5)
 coneBottomG.translate(0, -0.23, 0)
 coneGeometry.merge(coneBottomG)
+coneGeometry.scale(1.5, 1.5, 1.5)
+coneGeometry.translate(0, .125, 0)
 const stripeGeometry = new THREE.CylinderGeometry(0.116, 0.155, 0.15, 32, 1, false, 0.8)
+stripeGeometry.scale(1.5, 1.5, 1.5)
+stripeGeometry.translate(0, .125, 0)

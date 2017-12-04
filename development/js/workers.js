@@ -407,6 +407,7 @@ function initWorkers()	{
 		shadow.faces[j].materialIndex = 9
 	}
 	meshes.mergeMesh(new THREE.Mesh(shadow))
+	meshes.translate(-2.5, 0, -4.5)
 
 	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 	let combinedMesh = new THREE.Mesh(meshes, materials)
