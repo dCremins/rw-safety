@@ -45,78 +45,117 @@ function test(group, color) {
 		default:
 			break
 	}
-	const buffer = Number(document.getElementById('buffer-' + group).value)
-	cone.translate(initialX, 0.75, -5.5)
+	const buffer = Number(document.getElementById('buffer-' + group).value) / 50
+	cone.translate(initialX, 0.75, -19)
 	coneGroup.merge(cone)
-	stripe.translate(initialX, 0.75, -5.5)
+	stripe.translate(initialX, 0.75, -19)
 	stripeGroup.merge(stripe)
 
 	let x = initialX
-	let cones = 1 + (buffer / 200)
-	let spacing = (buffer / 50) / cones
-
-
-	for (let i = initialX; i <= (buffer / 50); i+=2) {
+	for (let i = initialX; i >= (initialX - buffer); i-=2) {
 		cone.translate(-2, 0, 0)
 		coneGroup.merge(cone)
+		stripe.translate(-2, 0, 0)
+		stripeGroup.merge(stripe)
 		x-=2
 	}
 
 /* Transition Taper */
 
-	const upstream = Number(document.getElementById('upstream-' + group).value)
+	const upstream = Number(document.getElementById('upstream-' + group).value) / 50
+	const height = 4.5
+	let cones = Math.pow(upstream, 2) + Math.pow(height, 2)
+	cones = Math.floor(Math.sqrt(cones)) / 2
+	let spacing = upstream / cones
+	let angle = height / cones
+	let y = 0
 
-	cones = 4 + ((upstream - 100) / 100)
-	let angle = 5.5 / cones
-	let y = .5 + angle
-	for (let i = Math.abs(x); i >= Math.abs(x - (upstream / 50)); i+=2) {
-		console.log(i)
-		cone.translate(-2, 0, angle)
+	cone.translate(-2, 0, 0)
+	coneGroup.merge(cone)
+	stripe.translate(-2, 0, 0)
+	stripeGroup.merge(stripe)
+	x-=2
+	let end = x - upstream
+
+	for (let a = x; a > (end); a-=spacing) {
+		cone.translate(-spacing, 0, angle)
 		coneGroup.merge(cone)
-		x-=2
+		stripe.translate(-spacing, 0, angle)
+		stripeGroup.merge(stripe)
+		y+=angle
+		x-=spacing
 	}
 
 /* Sign Spacing */
-	signSpace(color, group, x)
+	signSpace(color, group)
 
-/* Downstream Taper */
+/* Downstream */
 
 	switch (group) {
 		case 1:
-			initialX = 9.5
-			break
-		case 2:
 			initialX = 10
 			break
-		case 3:
+		case 2:
 			initialX = 10.5
 			break
-		case 4:
+		case 3:
 			initialX = 11
 			break
-		case 5:
+		case 4:
 			initialX = 11.5
 			break
-		case 6:
+		case 5:
 			initialX = 12
+			break
+		case 6:
+			initialX = 12.5
 			break
 		default:
 			break
 	}
-	const downstream = Number(document.getElementById('downstream-' + group).value)
-	cone.translate(Math.abs(x)+initialX, 0, -Math.abs(y)+.5)
-	stripe.translate(Math.abs(x)+initialX, 0, -Math.abs(y)+.5)
-	x = initialX
-	cones = 2 + (downstream / 200)
-	spacing = (downstream / 50) / cones
-	y = 0.5
-	while (Math.abs(x) <= ((downstream / 50) + initialX) && Math.abs(x) <= 21.5) {
-		cone.translate(spacing, 0, (4.5 / cones))
+		cone.translate(Math.abs(x)+initialX, 0, -y)
 		coneGroup.merge(cone)
-		stripe.translate(spacing, 0, (4.5 / cones))
+		stripe.translate(Math.abs(x)+initialX, 0, -y)
 		stripeGroup.merge(stripe)
-		y += 4.5 / cones
-		x += spacing
+
+		x = initialX
+
+/* Downstream Buffer */
+
+	const downBuff = Number(document.getElementById('downbuff-' + group).value) / 50
+
+	if (downBuff && downBuff > 0) {
+		for (let i = initialX; i <= (initialX + downBuff); i+=2) {
+			cone.translate(2, 0, 0)
+			coneGroup.merge(cone)
+			stripe.translate(2, 0, 0)
+			stripeGroup.merge(stripe)
+			x+=2
+		}
+	}
+
+/* Downstream Taper */
+
+	const downstream = Number(document.getElementById('downstream-' + group).value) / 50
+
+	cone.translate(2, 0, 0)
+	coneGroup.merge(cone)
+	stripe.translate(2, 0, 0)
+	stripeGroup.merge(stripe)
+	x+=2
+	cones = Math.pow(downstream, 2) + Math.pow(height, 2)
+	cones = Math.floor(Math.sqrt(cones)) / 2
+	spacing = downstream / cones
+	angle = height / cones
+	y = 0
+	end = x + downstream
+
+	for (let a = x; a < (end); a+=spacing) {
+		cone.translate(spacing, 0, angle)
+		coneGroup.merge(cone)
+		stripe.translate(spacing, 0, angle)
+		stripeGroup.merge(stripe)
+		y+=angle
 	}
 
 /* Give Group A Name and Add To Scene */

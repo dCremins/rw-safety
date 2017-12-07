@@ -1,11 +1,11 @@
 function onDocumentMouseCancel(event) {
 	controls.enabled = true
 	event.preventDefault()
-	if (selected) {
-		selected = null
+	if (dragged) {
+		dragged = null
 	}
 	renderer.domElement.style.cursor = 'auto'
-	render()
+	//render()
 }
 
 function onDocumentTouchEnd(event) {

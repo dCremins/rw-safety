@@ -412,5 +412,6 @@ function initWorkers()	{
 	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 	let combinedMesh = new THREE.Mesh(meshes, materials)
 	combinedMesh.castShadow = true
+	combinedMesh.position.set(0, 0, -13)
 	scene.add(combinedMesh)
 }

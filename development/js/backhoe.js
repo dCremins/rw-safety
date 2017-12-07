@@ -338,6 +338,6 @@ function initBackHoe() {
 	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 	let combinedMesh = new THREE.Mesh(meshes, materials)
 	combinedMesh.castShadow = true
-	combinedMesh.position.set(2.5, 1.4, -2)
+	combinedMesh.position.set(2.5, 1.4, -15)
 	scene.add(combinedMesh)
 }

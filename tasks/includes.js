@@ -15,3 +15,7 @@ gulp.task('html', () => {
     .pipe(htmlmin({collapseWhitespace: true}))
 		.pipe(gulp.dest('./app'))
 })
+
+gulp.task('html:watch', () => {
+	gulp.watch('./development/**/*.html', ['html'])
+})

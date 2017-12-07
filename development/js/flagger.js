@@ -336,17 +336,20 @@ function flagger(color) {
 		stick.faces[j].materialIndex = 8;
 	}
 	meshes.mergeMesh(new THREE.Mesh(stick))
+	//meshes.translate(2, 0, -2.8)
 
 
 	meshes = new THREE.BufferGeometry().fromGeometry(meshes)
 	let combinedMesh = new THREE.Mesh(meshes, materials)
 	combinedMesh.castShadow = true
-	combinedMesh.position.set(-10, 1.2, 1)
+	combinedMesh.rotation.set(0, -1.2, 0)
+	combinedMesh.position.set(-10, 1.2, -13.5)
 	scene.add(combinedMesh)
 	flaggers.push(combinedMesh)
 
 	const person2 = combinedMesh.clone(true)
-	person2.position.set(10, 1.2, -14)
+	person2.rotation.set(0, 2.4, 0)
+	person2.position.set(10, 1.2, -26.5)
 	scene.add(person2)
 	flaggers.push(person2)
 

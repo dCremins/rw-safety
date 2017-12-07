@@ -5,21 +5,23 @@ let controls
 let renderer
 let ambient
 let sun
-const objects = []
+let objectPlane
 const flaggers = []
 
 const raycaster = new THREE.Raycaster()
 const mouse = new THREE.Vector2()
+const plane = new THREE.Plane()
 const offset = new THREE.Vector3()
 const intersection = new THREE.Vector3()
 let selected = null
+let dragged = null
 let hovered = null
 // Colors
-const red = new THREE.MeshLambertMaterial({color: 0xF87676})
-const green = new THREE.MeshLambertMaterial({color: 0x77C997})
-const blue = new THREE.MeshLambertMaterial({color: 0x22B8E2})
-const orange = new THREE.MeshLambertMaterial({color: 0xF6B331})
-const yellow = new THREE.MeshLambertMaterial({color: 0xFFFF86})
+const red = new THREE.MeshLambertMaterial({color: 0xd16262})
+const green = new THREE.MeshLambertMaterial({color: 0x5ca87a})
+const blue = new THREE.MeshLambertMaterial({color: 0x199dc1})
+const orange = new THREE.MeshLambertMaterial({color: 0xe09d18})
+const yellow = new THREE.MeshLambertMaterial({color: 0xd3ba00})
 const purple = new THREE.MeshLambertMaterial({color: 0xB78DD1})
 const white = new THREE.MeshLambertMaterial({color: 0xFFFFFF})
 const offwhite = new THREE.MeshLambertMaterial({color: 0xF4EEEF})

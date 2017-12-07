@@ -10,6 +10,7 @@ function init() {
 	initBackHoe()
 	initTruck()
 	initWorkers()
+	//arrowSign(red, 1)
 	// Mechanics
 	initCamera()
 	initLights()
@@ -22,7 +23,7 @@ function initCamera() {
 }
 
 function initLights() {
-	ambient = new THREE.HemisphereLight(0xDEEEF2, 0x665C6D, 1.1)
+	ambient = new THREE.HemisphereLight(0xDEEEF2, 0x665C6D, .9)
 	sun = new THREE.SpotLight(0xFCDC74, 0.2)
 	sun.position.set(-50, 40, -5)
 	sun.castShadow = true
@@ -50,10 +51,10 @@ function initRender() {
 	controls = new THREE.OrbitControls(camera, renderer.domElement)
 	controls.addEventListener( 'change', render )
 
-	//container.addEventListener('mousemove', onDocumentMouseMove, false)
-	//container.addEventListener('mouseup', onDocumentMouseCancel, false)
-	//container.addEventListener('mousedown', onDocumentMouseDown, false)
-	//container.addEventListener('touchmove', onDocumentTouchMove, false)
-	//container.addEventListener('touchstart', onDocumentTouchStart, false)
-	//container.addEventListener('touchend', onDocumentTouchEnd, false)
+	container.addEventListener('mousemove', onDocumentMouseMove, false)
+	container.addEventListener('mouseup', onDocumentMouseCancel, false)
+	container.addEventListener('mousedown', onDocumentMouseDown, false)
+	container.addEventListener('touchmove', onDocumentTouchMove, false)
+	container.addEventListener('touchstart', onDocumentTouchStart, false)
+	container.addEventListener('touchend', onDocumentTouchEnd, false)
 }
