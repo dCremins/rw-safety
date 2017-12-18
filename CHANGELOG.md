@@ -17,7 +17,11 @@
 ## 1.0.2
 * Added new sign options
 * Refined cone rendering Math
-* Shifter UI layout to better fit added elements
+* Shifted UI layout to better fit added elements
 * Repositioned signs and added spacing text to scene
 * Created Arrow Board Signs
 * Refined Dragging controls
+
+## 1.0.3
+* Change Dragging to two click placement
+* Selected object to move glows the group color
