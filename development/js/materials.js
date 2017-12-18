@@ -8,6 +8,7 @@ let sun
 let objectPlane
 const flaggers = []
 
+const container = document.getElementById('container')
 const raycaster = new THREE.Raycaster()
 const mouse = new THREE.Vector2()
 const plane = new THREE.Plane()
@@ -16,6 +17,9 @@ const intersection = new THREE.Vector3()
 let selected = null
 let dragged = null
 let hovered = null
+
+const glow = new THREE.MeshLambertMaterial({color: 0xB78DD1, emissive:0x333333})
+
 // Colors
 const red = new THREE.MeshLambertMaterial({color: 0xd16262})
 const green = new THREE.MeshLambertMaterial({color: 0x5ca87a})

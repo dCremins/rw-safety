@@ -1,4 +1,30 @@
-function test(group, color) {
+function clearCones(group, close) {
+	// Remove old render if it exists
+	if (scene.getObjectByName(group+'-cones')) {
+		scene.remove(scene.getObjectByName(group+'-cones'))
+	}
+	if (scene.getObjectByName('signGroup-' + group)) {
+		scene.remove(scene.getObjectByName('signGroup-' + group))
+	}
+	if (scene.getObjectByName(group+'-flagger1')) {
+		scene.remove(scene.getObjectByName(group+'-flagger1'))
+	}
+	if (scene.getObjectByName(group+'-flagger2')) {
+		scene.remove(scene.getObjectByName(group+'-flagger2'))
+	}
+	if (scene.getObjectByName(group+'-arrow1')) {
+		scene.remove(scene.getObjectByName(group+'-arrow1'))
+	}
+	if (scene.getObjectByName(group+'-arrow2')) {
+		scene.remove(scene.getObjectByName(group+'-arrow2'))
+	}
+	if (close) {
+		slide('group-' + group)
+	}
+	render()
+}
+
+function renderCones(group, color) {
 	let meshes = new THREE.Geometry()
 	let shadow = new THREE.Geometry()
 	const materials = [
@@ -12,14 +38,7 @@ function test(group, color) {
 	const stripeGroup = new THREE.Geometry()
 	let initialX
 
-	// Remove old render if it exists
-	if (scene.getObjectByName(group+'-cones')) {
-		scene.remove(scene.getObjectByName(group+'-cones'))
-		//scene.getObjectByName(group+'-cones').geometry.dispose()
-	}
-	if (scene.getObjectByName('signGroup-' + group)) {
-		scene.remove(scene.getObjectByName('signGroup-' + group))
-	}
+	clearCones(group, false)
 
 /* Buffer */
 
@@ -185,6 +204,6 @@ function test(group, color) {
 
 /* Close Sidebar */
 	slide('group-' + group)
-	flagger(color)
-	animate()
+	flagger(group, color)
+	render()
 }

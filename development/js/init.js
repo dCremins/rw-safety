@@ -41,7 +41,6 @@ function initLights() {
 
 function initRender() {
 	renderer = new THREE.WebGLRenderer({antialias: true})
-	const container = document.getElementById('container')
 	renderer.setSize(window.innerWidth - 101, window.innerHeight - 1)
 	renderer.setClearColor(0xFFFFFF, 1)
 	renderer.setPixelRatio( window.devicePixelRatio )
@@ -54,7 +53,7 @@ function initRender() {
 	container.addEventListener('mousemove', onDocumentMouseMove, false)
 	container.addEventListener('mouseup', onDocumentMouseCancel, false)
 	container.addEventListener('mousedown', onDocumentMouseDown, false)
-	container.addEventListener('touchmove', onDocumentTouchMove, false)
+//	container.addEventListener('touchmove', onDocumentTouchMove, false)
 	container.addEventListener('touchstart', onDocumentTouchStart, false)
 	container.addEventListener('touchend', onDocumentTouchEnd, false)
 }

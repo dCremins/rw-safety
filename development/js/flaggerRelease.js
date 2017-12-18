@@ -1,19 +1,20 @@
+// const canv = renderer.domElement
+// const rect = canv.getBoundingClientRect()
+
 function onDocumentMouseCancel(event) {
-	controls.enabled = true
 	event.preventDefault()
-	if (dragged) {
-		dragged = null
+	if (!movingOn) {
+		controls.enabled = true
+		hovered = null
+		canv.style.cursor = 'auto'
 	}
-	renderer.domElement.style.cursor = 'auto'
-	//render()
 }
 
 function onDocumentTouchEnd(event) {
-	controls.enabled = true
 	event.preventDefault()
-	if (selected) {
-		selected = null
+	if (!movingOn) {
+		controls.enabled = true
+		hovered = null
+		canv.style.cursor = 'auto'
 	}
-	renderer.domElement.style.cursor = 'auto'
-	render()
 }

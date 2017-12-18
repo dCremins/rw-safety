@@ -1,4 +1,4 @@
-function flagger(color) {
+function flagger(group, color) {
 	let meshes = new THREE.Geometry()
 	const materials = [
 		color,					// 0
@@ -344,12 +344,14 @@ function flagger(color) {
 	combinedMesh.castShadow = true
 	combinedMesh.rotation.set(0, -1.2, 0)
 	combinedMesh.position.set(-10, 1.2, -13.5)
+	combinedMesh.name = (group+'-flagger1')
 	scene.add(combinedMesh)
 	flaggers.push(combinedMesh)
 
 	const person2 = combinedMesh.clone(true)
 	person2.rotation.set(0, 2.4, 0)
 	person2.position.set(10, 1.2, -26.5)
+	person2.name = (group+'-flagger2')
 	scene.add(person2)
 	flaggers.push(person2)
 

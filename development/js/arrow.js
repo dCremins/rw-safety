@@ -236,6 +236,7 @@ const combinedMesh = new THREE.Mesh(meshes, materials)
 combinedMesh.castShadow = true
 combinedMesh.rotation.set(0, -1.2, 0)
 combinedMesh.position.set(-1, 0, -14)
+combinedMesh.name = (group+'-arrow1')
 scene.add(combinedMesh)
 flaggers.push(combinedMesh)
 
@@ -246,11 +247,12 @@ const newCombinedMesh = new THREE.Mesh(newMesh, materials)
 newCombinedMesh.rotation.set(0, 1.2, 0)
 newCombinedMesh.position.set(12, 0, -15.5)
 newCombinedMesh.castShadow = true
+newCombinedMesh.name = (group+'-arrow2')
 scene.add(newCombinedMesh)
 flaggers.push(newCombinedMesh)
 
 let box = new THREE.BoxGeometry(1, 3, 1)
 let center = new THREE.Mesh(box, white)
-scene.add(center)
+//scene.add(center)
 
 }

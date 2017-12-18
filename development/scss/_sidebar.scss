@@ -14,11 +14,11 @@ h1 {
 
 .side-menu {
   background-color: $grey;
-	box-sizing: border-box;
+  box-sizing: border-box;
   height: 100%;
   left: 99px;
   overflow: hidden;
-	padding: 0;
+  padding: 0;
   position: absolute;
   width: 0;
 }
@@ -47,10 +47,18 @@ h1 {
   width: 48%;
 }
 
+.top-input {
+  padding: 10px 0 0;
+
+  .signs {
+  	padding: 5px 0;
+	}
+}
+
 .input-container {
-	box-sizing: border-box;
+  box-sizing: border-box;
   display: flex;
-	flex-flow: row wrap;
+  flex-flow: row wrap;
   width: 100%;
 }
 
@@ -67,8 +75,8 @@ input {
 .signs {
   color: $white;
   display: flex;
-	margin: 1%;
-	width: 48%;
+  margin: 1%;
+  min-width: 48%;
 }
 
 .sign {

@@ -1,74 +1,45 @@
+const canv = renderer.domElement
+const rect = canv.getBoundingClientRect()
+
 function onDocumentMouseMove(event) {
 	event.preventDefault()
-	const rect = renderer.domElement.getBoundingClientRect()
-	const canv = renderer.domElement
 	// Subtract the extra space on the left and top and dicide by width and height
 	mouse.x = (((event.clientX - rect.left) / canv.clientWidth) * 2) - 1
 	mouse.y = -(((event.clientY - rect.top) / canv.clientHeight) * 2) + 1
-/*
-	raycaster.setFromCamera(mouse, camera)
-	if (selected) {
-		if (raycaster.intersectObjects(objects)) {
-			//selected.position.set(0, 1, 0)
-			//console.log('x: ', selected.position.x)
-			//console.log('Mouse x: ', mouse.x)
-			//console.log('move x: ', raycaster.intersectObjects(objects)[0].point.x)
-			console.log(intersection.sub( offset ))
-			selected.position.set(raycaster.intersectObjects(objects)[0].point.x, selected.position.y, raycaster.intersectObjects(objects)[0].point.z-3)
-			render()
-		}
-		raycaster.setFromCamera(mouse, camera)
-		const intersects = raycaster.intersectObjects(flaggers)
-		if (intersects.length > 0) {
-			const object = intersects[0].object
-			if (hovered !== object) {
-				renderer.domElement.style.cursor = 'pointer'
-				hovered = object
-			}
-		} else if (hovered !== null) {
-			renderer.domElement.style.cursor = 'auto'
-			hovered = null
-		}
-		*/
-		raycaster.setFromCamera( mouse, camera )
-    const dragging = raycaster.intersectObjects( flaggers )
-		const ground = raycaster.intersectObject( objectPlane )
-		//console.log(ground[0].point.x)
 
-		if (dragged) {
-			if ( ground.length > 0 ) {
-				//let stableY = dragged.position.y
-				//dragged.position.copy( intersection.sub( offset ) )
-				dragged.position.set(ground[0].point.x, dragged.position.y, ground[0].point.z)
-				render()
-			}
-		}
+	raycaster.setFromCamera( mouse, camera )
+  const people = raycaster.intersectObjects( flaggers )
 
-    if ( dragging.length > 0 ) {
-        if ( selected !== dragging[0].object ) {
-            selected = dragging[0].object
-          //  plane.setFromNormalAndCoplanarPoint(
-          //      camera.getWorldDirection( plane.normal ),
-          //      selected.position )
-        }
-        renderer.domElement.style.cursor = 'pointer';
-    } else {
-        selected = null;
-        renderer.domElement.style.cursor = 'auto';
+	// When mouse is over an object in the flaggers array, change to pointer
+  if ( people.length > 0 ) {
+		// If the object is in the flaggers array, make it the selected object
+    if ( hovered !== people[0].object ) {
+        hovered = people[0].object
     }
+    canv.style.cursor = 'pointer';
+  } else {
+    hovered = null;
+    canv.style.cursor = 'auto';
+  }
 }
+
+// Controls modified from above to suit touch Controls
 
 function onDocumentTouchMove(event) {
 	event.preventDefault()
 	event = event.changedTouches[0]
-	const rect = renderer.domElement.getBoundingClientRect()
-	mouse.x = (((event.clientX - rect.left) / rect.width) * 2) - 1
-	mouse.y = -(((event.clientY - rect.top) / rect.height) * 2) + 1
+	// Subtract the extra space on the left and top and dicide by width and height
+	mouse.x = (((event.clientX - rect.left) / canv.clientWidth) * 2) - 1
+	mouse.y = -(((event.clientY - rect.top) / canv.clientHeight) * 2) + 1
+
 	raycaster.setFromCamera(mouse, camera)
+	const ground = raycaster.intersectObject( objectPlane )
+
+	// Touch controls don't need to change selected to dragged
+	// Because there is no hover with a touch control
 	if (selected) {
-		if (raycaster.intersectObjects(objects)) {
-			selected.position.set(0, 1, 0)
-			selected.position.set(raycaster.intersectObjects(objects)[0].point.x, selected.position.y, raycaster.intersectObjects(objects)[0].point.z)
+		if (ground.length > 0) {
+			selected.position.set(ground[0].point.x, selected.position.y, ground[0].point.z)
 			render()
 		}
 	}
